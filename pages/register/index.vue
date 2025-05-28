@@ -5,7 +5,20 @@
     <div class="left-div">
       <h1>Εγγραφή</h1>
     </div>
-    <div class="right-div"></div>
+    <div class="">
+      <!-- Tabs for Different types of users -->
+      <TabsRoot>
+        <TabsList>
+          <TabsTrigger value="checker" />
+          <TabsTrigger value="client" />
+          <TabsIndicator />
+        </TabsList>
+        <TabsContent value="checker">
+          <h2>Εγγραφή Ελεγκτή</h2>
+          <p>Εδώ θα είναι η φόρμα εγγραφής για ελεγκτές.</p>
+        </TabsContent>
+      </TabsRoot>
+    </div>
   </div>
 </template>
 
