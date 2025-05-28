@@ -17,7 +17,5 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/test-utils",
     "@nuxt/ui",
-    "@nuxtjs/tailwindcss",
-    "reka-ui/nuxt",
   ],
 });
