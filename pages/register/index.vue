@@ -123,8 +123,8 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
           >
             <UFormField label="Full Name" type="text" name="fullName">
               <UInput
-                class="w-full"
                 v-model="clientForm.fullName"
+                class="w-full"
                 placeholder="Enter your full name"
                 required
               />
@@ -183,8 +183,5 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
   justify-content: center;
   align-items: center;
   padding: 8rem;
-}
-
-.tabs {
 }
 </style>
