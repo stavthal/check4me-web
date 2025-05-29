@@ -131,24 +131,24 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
             </UFormField>
             <UFormField label="Email" type="email" name="email">
               <UInput
-                class="w-full"
                 v-model="clientForm.email"
+                class="w-full"
                 placeholder="Enter your email"
                 required
               />
             </UFormField>
             <UFormField label="Password" type="password" name="password">
               <UInput
-                class="w-full"
                 v-model="clientForm.password"
+                class="w-full"
                 placeholder="Enter your password"
                 required
               />
             </UFormField>
             <UFormField label="Confirm Password" name="confirmPassword">
               <UInput
-                class="w-full"
                 v-model="clientForm.confirmPassword"
+                class="w-full"
                 placeholder="Confirm your password"
                 required
               />

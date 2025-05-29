@@ -39,8 +39,8 @@ const submitForm = () => {
         <UFormField label="Password" for="password" class="w-full">
           <UInput
             id="password"
-            trailing-icon="i-heroicons-lock-closed-solid"
             v-model="form.password"
+            trailing-icon="i-heroicons-lock-closed-solid"
             type="password"
             placeholder="Enter your password"
             class="w-full"
