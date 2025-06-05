@@ -71,10 +71,9 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
 
 <template>
   <div class="container">
-    <div class="left-div">
-      <h1>Εγγραφή</h1>
-    </div>
-    <div class="right-div bg-primary">
+    <div class="left-div !bg-primary max-sm:hidden"></div>
+    <div class="right-div max-sm:!w-full !flex-col">
+      <h1 class="mb-12 text-5xl font-bold">Check4Me</h1>
       <UTabs
         :items="items"
         color="primary"
