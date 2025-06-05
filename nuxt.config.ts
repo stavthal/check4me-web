@@ -17,5 +17,6 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/test-utils",
     "@nuxt/ui",
+    "@nuxtjs/supabase",
   ],
 });
