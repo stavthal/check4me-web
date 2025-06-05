@@ -2,6 +2,7 @@
 import { useAsyncData } from "#app";
 import { ref, computed, reactive } from "vue";
 import type { TabsItem } from "@nuxt/ui";
+import type { Toast } from "~/types/ucomponents";
 
 definePageMeta({ middleware: "auth" });
 
@@ -57,43 +58,11 @@ const areas = computed(() => fetchedAreas.value ?? []);
 const loading = ref(false);
 
 const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
-  loading.value = true;
-  const supabase = useSupabaseClient();
+  const { loading, submitForm } = useRegisterForm(toast as Toast);
   try {
-    const { error } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-      options: {
-        data: {
-          fullName: form.fullName,
-          area_id: form.area_id,
-          role: form.role,
-        },
-      },
-    });
-    console.log("Registration response:", { error });
-    if (error) {
-      // Check for user already exists error
-      if (
-        error.message?.toLowerCase().includes("user already registered") ||
-        error.message?.toLowerCase().includes("user already exists") ||
-        error.status === 400
-      ) {
-        toast.add({
-          title: "A user with this email already exists.",
-          color: "warning",
-        });
-      } else {
-        throw error;
-      }
-      return;
-    }
+    await submitForm(form);
   } catch (error) {
     console.error("Registration error:", error);
-    toast.add({
-      title: "Registration failed. Please try again.",
-      color: "error",
-    });
   } finally {
     loading.value = false;
   }
