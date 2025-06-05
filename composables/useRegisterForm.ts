@@ -13,6 +13,8 @@ type RegisterForm = {
 export function useRegisterForm(toast: Toast) {
   const loading = ref(false);
 
+  const router = useRouter();
+
   const submitForm = async (form: RegisterForm) => {
     loading.value = true;
     const supabase = useSupabaseClient();
@@ -28,6 +30,13 @@ export function useRegisterForm(toast: Toast) {
           },
         },
       });
+
+      toast.add({
+        title: "Registration successful! Please check your email to confirm.",
+        color: "success",
+      });
+      router.push("/login");
+
       if (error) {
         if (
           error.message?.toLowerCase().includes("user already registered") ||
