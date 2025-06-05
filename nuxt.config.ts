@@ -36,5 +36,6 @@ export default defineNuxtConfig({
     "@nuxt/test-utils",
     "@nuxt/ui",
     "@nuxtjs/supabase",
+    "@pinia/nuxt",
   ],
 });
