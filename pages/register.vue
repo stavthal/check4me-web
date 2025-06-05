@@ -3,6 +3,8 @@ import { useAsyncData } from "#app";
 import { ref, computed, reactive } from "vue";
 import type { TabsItem } from "@nuxt/ui";
 
+definePageMeta({ middleware: "auth" });
+
 const toast = useToast();
 
 const items = ref<TabsItem[]>([
