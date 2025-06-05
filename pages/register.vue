@@ -183,6 +183,15 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
               :disabled="loading"
               >Register as Checker</UButton
             >
+            <!-- Navigate to Login -->
+            <div class="flex flex-col gap-2 mt-4">
+              <p class="mt-2 text-sm text-center text-gray-500">
+                Already have an account?
+                <NuxtLink to="/login" class="font-extrabold text-primary"
+                  >Login!</NuxtLink
+                >
+              </p>
+            </div>
           </UForm>
         </template>
 
@@ -254,6 +263,16 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
               :disabled="loading"
               >Register as Client</UButton
             >
+
+            <!-- Navigate to Login -->
+            <div class="flex flex-col gap-2 mt-4">
+              <p class="mt-2 text-sm text-center text-gray-500">
+                Already have an account?
+                <NuxtLink to="/login" class="font-extrabold text-primary"
+                  >Login!</NuxtLink
+                >
+              </p>
+            </div>
           </UForm>
         </template>
       </UTabs>
