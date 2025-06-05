@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { useAsyncData } from "#app";
+import { ref, computed, reactive } from "vue";
 import type { TabsItem } from "@nuxt/ui";
+
+const toast = useToast();
 
 const items = ref<TabsItem[]>([
   {
@@ -20,6 +24,7 @@ const checkerForm = reactive({
   email: "",
   password: "",
   confirmPassword: "",
+  area_id: "",
 });
 
 const clientForm = reactive({
@@ -28,16 +33,68 @@ const clientForm = reactive({
   email: "",
   password: "",
   confirmPassword: "",
+  area_id: "",
 });
 
-const submitForm = (form: typeof checkerForm | typeof clientForm) => {
-  // Here you would typically handle form submission, e.g., send data to an API
-  console.log("Form submitted:", form);
-  // Reset the form after submission
-  form.fullName = "";
-  form.email = "";
-  form.password = "";
-  form.confirmPassword = "";
+type Area = { id: string; name: string };
+
+const { data: fetchedAreas } = await useAsyncData<Area[]>("areas", async () => {
+  const supabase = useSupabaseClient();
+
+  const { data, error } = await supabase.from("areas").select("id, name");
+  if (error) {
+    console.error("Error fetching areas:", error.message);
+    return [];
+  }
+  return data as Area[];
+});
+
+const areas = computed(() => fetchedAreas.value ?? []);
+
+// Add loading ref
+const loading = ref(false);
+
+const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
+  loading.value = true;
+  const supabase = useSupabaseClient();
+  try {
+    const { error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+      options: {
+        data: {
+          fullName: form.fullName,
+          area_id: form.area_id,
+          role: form.role,
+        },
+      },
+    });
+    console.log("Registration response:", { error });
+    if (error) {
+      // Check for user already exists error
+      if (
+        error.message?.toLowerCase().includes("user already registered") ||
+        error.message?.toLowerCase().includes("user already exists") ||
+        error.status === 400
+      ) {
+        toast.add({
+          title: "A user with this email already exists.",
+          color: "warning",
+        });
+      } else {
+        throw error;
+      }
+      return;
+    }
+  } catch (error) {
+    console.error("Registration error:", error);
+    toast.add({
+      title: "Registration failed. Please try again.",
+      color: "error",
+    });
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
@@ -52,6 +109,7 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
         color="primary"
         :ui="{ trigger: 'grow' }"
         class="w-full"
+        :disabled="loading"
       >
         <!-- Checker Form -->
         <template #checker="{ item }: { item: TabsItem }">
@@ -70,6 +128,7 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
                 class="w-full"
                 placeholder="Enter your full name"
                 required
+                :disabled="loading"
               />
             </UFormField>
             <UFormField label="Email" type="email" name="email">
@@ -78,6 +137,7 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
                 class="w-full"
                 placeholder="Enter your email"
                 required
+                :disabled="loading"
               />
             </UFormField>
             <UFormField label="Password" type="password" name="password">
@@ -86,6 +146,8 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
                 class="w-full"
                 placeholder="Enter your password"
                 required
+                type="password"
+                :disabled="loading"
               />
             </UFormField>
             <UFormField
@@ -98,13 +160,27 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
                 class="w-full"
                 placeholder="Confirm your password"
                 required
+                type="password"
+                :disabled="loading"
               />
             </UFormField>
-
+            <UFormField label="Area" name="area">
+              <USelect
+                v-model="checkerForm.area_id"
+                class="w-full"
+                :items="
+                  areas.map((area) => ({ value: area.id, label: area.name }))
+                "
+                placeholder="Select your area"
+                required
+                :disabled="loading"
+              />
+            </UFormField>
             <UButton
               type="submit"
               color="primary"
-              class="w-full justify-center items-center"
+              class="items-center justify-center w-full"
+              :disabled="loading"
               >Register as Checker</UButton
             >
           </UForm>
@@ -127,6 +203,7 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
                 class="w-full"
                 placeholder="Enter your full name"
                 required
+                :disabled="loading"
               />
             </UFormField>
             <UFormField label="Email" type="email" name="email">
@@ -135,6 +212,7 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
                 class="w-full"
                 placeholder="Enter your email"
                 required
+                :disabled="loading"
               />
             </UFormField>
             <UFormField label="Password" type="password" name="password">
@@ -143,6 +221,8 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
                 class="w-full"
                 placeholder="Enter your password"
                 required
+                type="password"
+                :disabled="loading"
               />
             </UFormField>
             <UFormField label="Confirm Password" name="confirmPassword">
@@ -151,13 +231,27 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
                 class="w-full"
                 placeholder="Confirm your password"
                 required
+                type="password"
+                :disabled="loading"
               />
             </UFormField>
-
+            <UFormField label="Area" name="area">
+              <USelect
+                v-model="clientForm.area_id"
+                class="w-full"
+                :items="
+                  areas.map((area) => ({ value: area.id, label: area.name }))
+                "
+                placeholder="Select your area"
+                required
+                :disabled="loading"
+              />
+            </UFormField>
             <UButton
               type="submit"
-              class="w-full justify-center items-center"
+              class="items-center justify-center w-full"
               color="primary"
+              :disabled="loading"
               >Register as Client</UButton
             >
           </UForm>
@@ -182,6 +276,6 @@ const submitForm = (form: typeof checkerForm | typeof clientForm) => {
   float: right;
   justify-content: center;
   align-items: center;
-  padding: 8rem;
+  padding: 32px;
 }
 </style>

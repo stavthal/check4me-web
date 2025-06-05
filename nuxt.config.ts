@@ -7,7 +7,15 @@ export default defineNuxtConfig({
     exposeConfig: true,
     viewer: true,
   },
-
+  supabase: {
+    redirectOptions: {
+      login: "/login",
+      callback: "/confirm",
+      include: undefined,
+      exclude: ["/register"],
+      saveRedirectToCookie: false,
+    },
+  },
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxt/content",
