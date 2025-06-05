@@ -6,11 +6,26 @@
       <NuxtLink to="/login">Login</NuxtLink>
       <NuxtLink to="/dashboard/client">Client Dashboard</NuxtLink>
       <NuxtLink to="/dashboard/checker">Checker Dashboard</NuxtLink>
+      <UButton @click="onLogout">Logout</UButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const supabase = useSupabaseClient();
+
+const onLogout = async () => {
+  console.log("Logging out...");
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Error logging out:", error.message);
+  } else {
+    console.log("Logged out successfully");
+    // Optionally, redirect to the login page or home page
+    useRouter().push("/login");
+  }
+};
 definePageMeta({ middleware: "auth" });
 </script>
 

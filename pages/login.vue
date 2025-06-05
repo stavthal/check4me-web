@@ -4,6 +4,10 @@ definePageMeta({ middleware: "auth" });
 
 <template>
   <div>
+    <!-- Dev only -->
+    <DevOnly>
+      <NuxtLink to="/" class="devlinks-header">DEV LINKS</NuxtLink>
+    </DevOnly>
     <FormLoginForm />
   </div>
 </template>
