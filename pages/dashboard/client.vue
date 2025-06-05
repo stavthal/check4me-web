@@ -4,7 +4,7 @@ import { useHydrateUserStore } from "~/composables/useHydrateUserStore";
 import { h, resolveComponent } from "vue";
 import type { TableColumn } from "@nuxt/ui";
 
-definePageMeta({ middleware: "auth" });
+definePageMeta({ middleware: "auth", layout: "client" });
 
 const { user } = useUserStore();
 const { loading } = useHydrateUserStore();
@@ -114,17 +114,29 @@ const columns: TableColumn<Payment>[] = [
 
 <template>
   <div>
-    <h1>Client Page</h1>
-    <p>This page is for checking the status of the application.</p>
-
     <div v-if="loading">Loading user...</div>
     <template v-else>
-      <p>User: {{ user?.full_name || "Guest" }}</p>
-      <p>Role: {{ user?.role || "No role assigned" }}</p>
-
-      <NuxtLink to="/">Go to Home</NuxtLink>
+      <p class="welcome-heading">
+        Καλώς όρισες,
+        <span class="user-name">{{ user?.full_name || "Guest" }}</span>
+      </p>
 
       <ClientRequestsTable :columns="columns" :data="data" class="mt-4" />
     </template>
   </div>
 </template>
+
+<style scoped>
+.welcome-heading {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+
+.user-name {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+</style>

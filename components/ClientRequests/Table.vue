@@ -15,10 +15,10 @@ defineProps<{
   <div class="px-4">
     <div>
       <UButton leading-icon="i-lucide-plus" class="float-right"
-        >New Request</UButton
+        >Νέο αίτημα</UButton
       >
     </div>
-    <h1 class="mb-4 text-2xl font-bold">Your Requests</h1>
+    <h1 class="mb-4 text-2xl font-bold">Τα αιτήματα σου</h1>
     <UTable
       :data="data"
       :columns="columns"
