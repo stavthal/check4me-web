@@ -1,49 +1,13 @@
 <script setup lang="ts">
+import { useLoginForm } from "~/composables/useLoginForm";
+
 const form = reactive({
   email: "",
   password: "",
 });
 
-const supabase = useSupabaseClient();
-
-const loading = ref(false);
-
 const toast = useToast();
-
-const submitForm = () => {
-  loading.value = true;
-  supabase.auth
-    .signInWithPassword({
-      email: form.email,
-      password: form.password,
-    })
-    .then(({ error }) => {
-      if (error) {
-        toast.add({
-          title: "Login Error",
-          description: error.message,
-          color: "error",
-        });
-      } else {
-        toast.add({
-          title: "Login Successful",
-          description: "Welcome back!",
-          color: "success",
-        });
-        navigateTo("/");
-      }
-    })
-    .catch((err) => {
-      toast.add({
-        title: "Login Error",
-        description: err.message,
-        color: "error",
-      });
-    })
-    .finally(() => {
-      loading.value = false;
-    });
-};
+const { loading, submitForm } = useLoginForm(toast);
 </script>
 
 <template>
@@ -57,7 +21,7 @@ const submitForm = () => {
         class="flex flex-col gap-4"
         aria-label="Login Form"
         role="form"
-        @submit.prevent="submitForm"
+        @submit.prevent="submitForm(form)"
       >
         <UFormField label="Email" for="email" class="w-full">
           <UInput
@@ -93,6 +57,7 @@ const submitForm = () => {
             type="submit"
             color="primary"
             class="items-center justify-center w-full"
+            :loading="loading"
           >
             Login
           </UButton>

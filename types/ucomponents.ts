@@ -1,3 +1,3 @@
 export type Toast = {
-  add: (arg0: { title: string; color: string }) => void;
+  add: (arg0: { title: string; description?: string; color: string }) => void;
 };

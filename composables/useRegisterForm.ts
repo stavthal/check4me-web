@@ -13,6 +13,8 @@ type RegisterForm = {
 export function useRegisterForm(toast: Toast) {
   const loading = ref(false);
 
+  const router = useRouter();
+
   const submitForm = async (form: RegisterForm) => {
     loading.value = true;
     const supabase = useSupabaseClient();
@@ -22,12 +24,13 @@ export function useRegisterForm(toast: Toast) {
         password: form.password,
         options: {
           data: {
-            fullName: form.fullName,
+            full_name: form.fullName,
             area_id: form.area_id,
             role: form.role,
           },
         },
       });
+
       if (error) {
         if (
           error.message?.toLowerCase().includes("user already registered") ||
@@ -43,6 +46,12 @@ export function useRegisterForm(toast: Toast) {
         }
         return;
       }
+
+      toast.add({
+        title: "Registration successful! Please check your email to confirm.",
+        color: "success",
+      });
+      router.push("/login");
     } catch (error) {
       console.error("Registration error:", error);
       toast.add({
