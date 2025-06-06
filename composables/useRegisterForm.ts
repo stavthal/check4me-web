@@ -24,18 +24,12 @@ export function useRegisterForm(toast: Toast) {
         password: form.password,
         options: {
           data: {
-            fullName: form.fullName,
+            full_name: form.fullName,
             area_id: form.area_id,
             role: form.role,
           },
         },
       });
-
-      toast.add({
-        title: "Registration successful! Please check your email to confirm.",
-        color: "success",
-      });
-      router.push("/login");
 
       if (error) {
         if (
@@ -52,6 +46,12 @@ export function useRegisterForm(toast: Toast) {
         }
         return;
       }
+
+      toast.add({
+        title: "Registration successful! Please check your email to confirm.",
+        color: "success",
+      });
+      router.push("/login");
     } catch (error) {
       console.error("Registration error:", error);
       toast.add({

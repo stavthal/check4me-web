@@ -28,6 +28,8 @@ const formData = reactive<RequestRequest>({
 
 const { areas } = await useFetchAreas();
 
+const toast = useToast();
+
 const schema = z.object({
   title: z.string().min(1, "Απαιτείται τίτλος."),
   vehicleMake: z.string().min(1, "Απαιτείται μάρκα."),
@@ -47,6 +49,21 @@ const schema = z.object({
 const errors = reactive<Record<string, string>>({});
 
 const { loading, submitForm, errorMsg } = useSubmitClientRequest();
+
+const { fetch, checkers } = useFetchCheckersByArea();
+
+console.log(checkers.value);
+
+const onSelect = async () => {
+  await fetch(formData.areaId);
+  console.log("Selected area:", formData.areaId);
+  console.log("Checkers in area:", checkers.value);
+  if (checkers.value.length === 0) {
+    toast.add({ title: "No checkers found in this area.", color: "warning" });
+  } else {
+    toast.add({ title: "Checkers loaded successfully.", color: "success" });
+  }
+};
 
 const onSubmit = async () => {
   const result = schema.safeParse(formData);
@@ -121,6 +138,7 @@ const onSubmit = async () => {
             v-model="formData.areaId"
             class="w-full"
             :items="areas.map((area: Area) => ({ value: area.id, label: area.name }))"
+            @change="onSelect"
           />
         </UFormField>
         <UFormField label="Τοποθεσία" name="location" :error="errors.location">
