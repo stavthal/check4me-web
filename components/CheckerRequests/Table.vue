@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { ref, computed, onMounted, h, resolveComponent } from "vue";
 import { useFetchCheckerRequests } from "~/composables/checker/useFetchCheckerRequests";
+import RequestDetailsModal from "~/components/CheckerRequests/RequestDetailsModal.vue";
+import type { RequestWithClient } from "~/types/request";
 
 const UBadge = resolveComponent("UBadge");
+const UModal = resolveComponent("UModal");
 
 const columns = [
   {
@@ -38,10 +42,6 @@ const columns = [
     header: "Περιοχή",
   },
   {
-    accessorKey: "notes",
-    header: "Σημειώσεις",
-  },
-  {
     accessorKey: "listing_link",
     header: "Link",
     cell: ({ row }: { row: { getValue: (key: string) => unknown } }) =>
@@ -56,8 +56,8 @@ const columns = [
       ),
   },
   {
-    accessorKey: "checker_full_name",
-    header: "Checker",
+    accessorKey: "client.full_name",
+    header: "Πελάτης",
   },
   {
     accessorKey: "status",
@@ -77,10 +77,53 @@ const columns = [
       );
     },
   },
+  {
+    accessorKey: "actions",
+    header: "Ενέργειες",
+    cell: ({
+      row,
+    }: {
+      row: { getValue: (key: string) => unknown; original: RequestWithClient };
+    }) => {
+      const status = row.getValue("status") as string;
+      if (status === "PENDING") {
+        return h(
+          "button",
+          {
+            class:
+              "u-btn u-btn-primary text-xs px-2 py-1 rounded bg-primary text-white hover:bg-primary-dark transition",
+            onClick: () => openDetailsModal(row.original),
+          },
+          "Προβολή Αιτήματος"
+        );
+      }
+      return null;
+    },
+  },
 ];
 
 const { requests, loading, fetchRequests } = useFetchCheckerRequests();
 const data = computed(() => requests.value);
+
+const isDetailsModalOpen = ref(false);
+const selectedRequest = ref<RequestWithClient | null>(null);
+
+const openDetailsModal = (request: RequestWithClient) => {
+  selectedRequest.value = request;
+  isDetailsModalOpen.value = true;
+};
+const closeDetailsModal = () => {
+  isDetailsModalOpen.value = false;
+  selectedRequest.value = null;
+};
+
+const isUploadModalOpen = ref(false);
+const openUploadModal = () => {
+  isUploadModalOpen.value = true;
+};
+const closeUploadModal = () => {
+  isUploadModalOpen.value = false;
+};
 
 onMounted(() => {
   fetchRequests();
@@ -102,5 +145,20 @@ onMounted(() => {
       :columns="columns"
       class="flex-1 border border-gray-300 rounded-xl"
     />
+    <RequestDetailsModal
+      :open="isDetailsModalOpen"
+      :request="selectedRequest"
+      @close="closeDetailsModal"
+      @upload-photos="openUploadModal"
+    />
+    <UModal
+      :open="isUploadModalOpen"
+      title="Upload Photos"
+      :close="{ onClick: closeUploadModal }"
+    >
+      <template #body>
+        <!-- Empty modal for now -->
+      </template>
+    </UModal>
   </div>
 </template>

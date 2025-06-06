@@ -11,3 +11,21 @@ export type RequestRequest = {
   clientId?: string;
   checkerId?: string;
 };
+
+export type RequestWithClient = {
+  id: number;
+  title: string;
+  vehicle_make: string;
+  vehicle_model: string;
+  year: number;
+  location: string;
+  notes: string;
+  listing_link: string;
+  status: string;
+  created_at: string;
+  area_id: number;
+  client_id: string;
+  client?: { full_name: string } | null;
+  client_full_name?: string;
+  checker_full_name?: string;
+};

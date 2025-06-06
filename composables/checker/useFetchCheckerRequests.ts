@@ -28,6 +28,7 @@ export const useFetchCheckerRequests = () => {
         .select(`*, client:client_id(full_name)`)
         .order("created_at", { ascending: false });
 
+      console.log("Fetched requests:", data);
       if (error) {
         throw new Error(error.message);
       }
