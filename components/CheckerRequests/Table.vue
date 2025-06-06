@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { ref, computed, onMounted, h, resolveComponent } from "vue";
 import { useFetchCheckerRequests } from "~/composables/checker/useFetchCheckerRequests";
 
 const UBadge = resolveComponent("UBadge");
+const UModal = resolveComponent("UModal");
 
 const columns = [
   {
@@ -77,10 +79,37 @@ const columns = [
       );
     },
   },
+  {
+    accessorKey: "actions",
+    header: "Ενέργειες",
+    cell: ({ row }: { row: { getValue: (key: string) => unknown } }) => {
+      const status = row.getValue("status") as string;
+      if (status === "PENDING") {
+        return h(
+          "button",
+          {
+            class:
+              "u-btn u-btn-primary text-xs px-2 py-1 rounded bg-primary text-white hover:bg-primary-dark transition",
+            onClick: openUploadModal,
+          },
+          "Upload Photos"
+        );
+      }
+      return null;
+    },
+  },
 ];
 
 const { requests, loading, fetchRequests } = useFetchCheckerRequests();
 const data = computed(() => requests.value);
+
+const isUploadModalOpen = ref(false);
+const openUploadModal = () => {
+  isUploadModalOpen.value = true;
+};
+const closeUploadModal = () => {
+  isUploadModalOpen.value = false;
+};
 
 onMounted(() => {
   fetchRequests();
@@ -102,5 +131,14 @@ onMounted(() => {
       :columns="columns"
       class="flex-1 border border-gray-300 rounded-xl"
     />
+    <UModal
+      :open="isUploadModalOpen"
+      title="Upload Photos"
+      :close="{ onClick: closeUploadModal }"
+    >
+      <template #body>
+        <!-- Empty modal for now -->
+      </template>
+    </UModal>
   </div>
 </template>

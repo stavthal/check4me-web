@@ -25,4 +25,11 @@ flowchart TD
 
   M -- Checker --> T[Checker Dashboard]
   T --> U[View assigned requests table]
+  U --> V{Request status}
+  V -- Pending --> W[Select request]
+  W --> X[Upload photos]
+  X --> Y[Mark as Complete]
+  Y --> Z[Update request status to Complete]
+  Z --> U
+  V -- Complete --> U
 ```
