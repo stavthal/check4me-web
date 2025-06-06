@@ -42,10 +42,6 @@ const columns = [
     header: "Περιοχή",
   },
   {
-    accessorKey: "notes",
-    header: "Σημειώσεις",
-  },
-  {
     accessorKey: "listing_link",
     header: "Link",
     cell: ({ row }: { row: { getValue: (key: string) => unknown } }) =>
@@ -60,8 +56,8 @@ const columns = [
       ),
   },
   {
-    accessorKey: "checker_full_name",
-    header: "Checker",
+    accessorKey: "client.full_name",
+    header: "Πελάτης",
   },
   {
     accessorKey: "status",
