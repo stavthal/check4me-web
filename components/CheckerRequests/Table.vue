@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, h, resolveComponent } from "vue";
 import { useFetchCheckerRequests } from "~/composables/checker/useFetchCheckerRequests";
+import RequestDetailsModal from "~/components/CheckerRequests/RequestDetailsModal.vue";
+import type { RequestWithClient } from "~/types/request";
 
 const UBadge = resolveComponent("UBadge");
 const UModal = resolveComponent("UModal");
@@ -82,7 +84,11 @@ const columns = [
   {
     accessorKey: "actions",
     header: "Ενέργειες",
-    cell: ({ row }: { row: { getValue: (key: string) => unknown } }) => {
+    cell: ({
+      row,
+    }: {
+      row: { getValue: (key: string) => unknown; original: RequestWithClient };
+    }) => {
       const status = row.getValue("status") as string;
       if (status === "PENDING") {
         return h(
@@ -90,9 +96,9 @@ const columns = [
           {
             class:
               "u-btn u-btn-primary text-xs px-2 py-1 rounded bg-primary text-white hover:bg-primary-dark transition",
-            onClick: openUploadModal,
+            onClick: () => openDetailsModal(row.original),
           },
-          "Upload Photos"
+          "Προβολή Αιτήματος"
         );
       }
       return null;
@@ -102,6 +108,18 @@ const columns = [
 
 const { requests, loading, fetchRequests } = useFetchCheckerRequests();
 const data = computed(() => requests.value);
+
+const isDetailsModalOpen = ref(false);
+const selectedRequest = ref<RequestWithClient | null>(null);
+
+const openDetailsModal = (request: RequestWithClient) => {
+  selectedRequest.value = request;
+  isDetailsModalOpen.value = true;
+};
+const closeDetailsModal = () => {
+  isDetailsModalOpen.value = false;
+  selectedRequest.value = null;
+};
 
 const isUploadModalOpen = ref(false);
 const openUploadModal = () => {
@@ -130,6 +148,12 @@ onMounted(() => {
       :data="data"
       :columns="columns"
       class="flex-1 border border-gray-300 rounded-xl"
+    />
+    <RequestDetailsModal
+      :open="isDetailsModalOpen"
+      :request="selectedRequest"
+      @close="closeDetailsModal"
+      @upload-photos="openUploadModal"
     />
     <UModal
       :open="isUploadModalOpen"
