@@ -3,6 +3,7 @@ import { reactive } from "vue";
 import { z } from "zod";
 import type { Area } from "~/types/area";
 import type { RequestRequest } from "~/types/request";
+import type { CheckerSelect } from "~/types/checker";
 
 interface Props {
   isOpen: boolean;
@@ -22,7 +23,7 @@ const formData = reactive<RequestRequest>({
   listingLink: "",
   areaId: "",
   clientId: user.value?.id,
-  checkerId: user.value?.id,
+  checkerId: "",
   notes: "",
 });
 
@@ -40,7 +41,7 @@ const schema = z.object({
   location: z.string().min(1, "Απαιτείται τοποθεσία."),
   status: z.string().optional(),
   listingLink: z.string().min(1, "Απαιτείται link αγγελίας."),
-  areaId: z.string().optional(),
+  areaId: z.number().optional(),
   clientId: z.string().optional(),
   checkerId: z.string().optional(),
   notes: z.string().min(1, "Απαιτούνται σημειώσεις."),
@@ -72,6 +73,8 @@ const onSubmit = async () => {
   if (!result.success) {
     // Populate errors object with zod errors
     // TODO: FIX THE CLIENT AND CHECKER ID NOT BEING SET AND ADD MODAL THAT SELECTS CHECKER
+    console.error("Validation errors:", result.error.flatten());
+
     Object.keys(errors).forEach((key) => (errors[key] = ""));
     for (const issue of result.error.issues) {
       errors[issue.path[0]] = issue.message;
@@ -139,6 +142,24 @@ const onSubmit = async () => {
             class="w-full"
             :items="areas.map((area: Area) => ({ value: area.id, label: area.name }))"
             @change="onSelect"
+          />
+        </UFormField>
+        <!-- Checker Select -->
+        <UFormField
+          v-if="checkers?.length > 0"
+          label="Επιλογή Checker"
+          name="checkerId"
+        >
+          <USelect
+            v-model="formData.checkerId"
+            class="w-full"
+            placeholder="Επιλέξτε έναν checker"
+            :items="
+              checkers?.map((checker: CheckerSelect) => ({
+                value: checker.id,
+                label: checker.full_name,
+              }))
+            "
           />
         </UFormField>
         <UFormField label="Τοποθεσία" name="location" :error="errors.location">
