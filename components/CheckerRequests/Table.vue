@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFetchClientRequests } from "~/composables/checker/useFetchCheckerRequests";
+import { useFetchCheckerRequests } from "~/composables/checker/useFetchCheckerRequests";
 
 const UBadge = resolveComponent("UBadge");
 
@@ -79,7 +79,7 @@ const columns = [
   },
 ];
 
-const { requests, loading, fetchRequests } = useFetchClientRequests();
+const { requests, loading, fetchRequests } = useFetchCheckerRequests();
 const data = computed(() => requests.value);
 
 onMounted(() => {

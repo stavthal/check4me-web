@@ -1,4 +1,4 @@
-export const useFetchClientRequests = () => {
+export const useFetchCheckerRequests = () => {
   const loading = ref(false);
   type RequestWithClient = {
     id: number;
