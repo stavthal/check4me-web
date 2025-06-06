@@ -49,7 +49,7 @@ const schema = z.object({
 
 const errors = reactive<Record<string, string>>({});
 
-const { loading, submitForm, errorMsg } = useSubmitClientRequest();
+const { pending, submitForm, errorMsg } = useSubmitClientRequest();
 
 const { fetch, checkers } = useFetchCheckersByArea();
 
@@ -84,6 +84,20 @@ const onSubmit = async () => {
   // Clear errors if valid
   Object.keys(errors).forEach((key) => (errors[key] = ""));
   await submitForm(formData);
+
+  // Reset form data after submission
+  formData.title = "";
+  formData.vehicleMake = "";
+  formData.vehicleModel = "";
+  formData.year = undefined;
+  formData.location = "";
+  formData.status = "PENDING";
+  formData.listingLink = "";
+  formData.areaId = "";
+
+  // Close the modal after submission
+  props.onClose(new MouseEvent("onClick"));
+  toast.add({ title: "Request submitted successfully!", color: "success" });
 };
 </script>
 
@@ -189,8 +203,8 @@ const onSubmit = async () => {
         </UFormField>
         <UButton
           type="submit"
-          :loading="loading"
-          :disabled="loading"
+          :loading="pending"
+          :disabled="pending"
           class="self-center justify-center w-1/3 mt-4 text-center"
           >Υποβολή</UButton
         >

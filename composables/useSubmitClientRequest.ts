@@ -2,13 +2,13 @@ import type { RequestRequest } from "~/types/request";
 import decamelize from "decamelize-keys";
 
 export const useSubmitClientRequest = () => {
-  const loading = ref(false);
+  const pending = ref(false);
   const payload = ref<RequestRequest | null>(null);
   const errorMsg = ref<string | null>(null);
   const supabase = useSupabaseClient();
 
   const submitForm = async (request: RequestRequest) => {
-    loading.value = true;
+    pending.value = true;
     errorMsg.value = null;
     payload.value = null;
     try {
@@ -33,9 +33,9 @@ export const useSubmitClientRequest = () => {
         return { data: null, error: err };
       }
     } finally {
-      loading.value = false;
+      pending.value = false;
     }
   };
 
-  return { loading, submitForm, payload, errorMsg };
+  return { pending, submitForm, payload, errorMsg };
 };
