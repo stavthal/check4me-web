@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { useUserStore } from "#imports";
 import { useHydrateUserStore } from "~/composables/useHydrateUserStore";
-import { h, resolveComponent } from "vue";
+import { h, resolveComponent, ref } from "vue";
 import type { TableColumn } from "@nuxt/ui";
 
 definePageMeta({ middleware: "auth", layout: "client" });
+
+const isModalOpen = ref(false);
+
+const onClose = () => {
+  isModalOpen.value = false;
+};
+
+const onOpenModal = () => {
+  isModalOpen.value = true;
+};
 
 const { user } = useUserStore();
 const { loading } = useHydrateUserStore();
@@ -121,7 +131,16 @@ const columns: TableColumn<Payment>[] = [
         <span class="user-name">{{ user?.full_name || "Guest" }}</span>
       </p>
 
-      <ClientRequestsTable :columns="columns" :data="data" class="mt-4" />
+      <ClientRequestsAddRequestModal
+        :is-open="isModalOpen"
+        :on-close="onClose"
+      />
+      <ClientRequestsTable
+        :columns="columns"
+        :data="data"
+        class="mt-4"
+        :on-new-request="onOpenModal"
+      />
     </template>
   </div>
 </template>

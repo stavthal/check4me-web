@@ -150,6 +150,7 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
               type="submit"
               color="primary"
               class="items-center justify-center w-full"
+              :loading="loading"
               :disabled="loading"
               >Register as Checker</UButton
             >

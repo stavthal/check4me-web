@@ -8,13 +8,17 @@ type TableColumn = {
 defineProps<{
   columns: TableColumn[];
   data: any[];
+  onNewRequest: () => void;
 }>();
 </script>
 
 <template>
   <div class="px-4">
     <div>
-      <UButton leading-icon="i-lucide-plus" class="float-right"
+      <UButton
+        leading-icon="i-lucide-plus"
+        class="float-right"
+        @click="onNewRequest"
         >Νέο αίτημα</UButton
       >
     </div>
