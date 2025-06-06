@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { h } from "vue";
 import { useFetchClientRequests } from "~/composables/client/useFetchClientRequests";
-
 const UBadge = resolveComponent("UBadge");
 
 defineProps<{

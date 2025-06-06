@@ -26,9 +26,11 @@ export function useHydrateUserStore() {
         id: sessionUser.id,
         email: sessionUser.email,
         role: sessionUser.user_metadata?.role || "",
-        full_name: sessionUser.user_metadata?.fullName || "",
+        full_name: sessionUser.user_metadata?.full_name || "",
         area,
       };
+
+      console.log(sessionUser);
       userStore.setUser(user);
     } else {
       userStore.clearUser();

@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { useUserStore } from "#imports";
-
-definePageMeta({ middleware: "auth" });
+definePageMeta({ middleware: "auth", layout: "checker" });
 
 const { user } = useUserStore();
-
 const { loading } = useHydrateUserStore();
 </script>
 
