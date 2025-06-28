@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import type { RequestWithClient } from "~/types/request";
+import { useUpdateRequestStatus } from "~/composables/checker/useUpdateRequestStatus";
 
 const props = defineProps<{
   open: boolean;
   request: RequestWithClient | null;
 }>();
 
-const emit = defineEmits(["close", "upload-photos"]);
+const emit = defineEmits(["close", "upload-photos", "status-updated"]);
+
+const { updating, markAsCompleted } = useUpdateRequestStatus();
+const toast = useToast();
 
 export type UBadgeColor =
   | "neutral"
@@ -19,6 +23,29 @@ const statusColors: Record<string, UBadgeColor> = {
   PENDING: "warning",
   APPROVED: "success",
   REJECTED: "error",
+  COMPLETED: "success",
+};
+
+const onMarkAsCompleted = async () => {
+  if (!props.request) return;
+
+  const result = await markAsCompleted(props.request.id);
+
+  if (result.success) {
+    toast.add({
+      title: "Επιτυχία",
+      description: "Το αίτημα σημειώθηκε ως ολοκληρωμένο!",
+      color: "success",
+    });
+    emit("status-updated");
+    emit("close");
+  } else {
+    toast.add({
+      title: "Σφάλμα",
+      description: "Αποτυχία ενημέρωσης κατάστασης",
+      color: "error",
+    });
+  }
 };
 </script>
 
@@ -93,14 +120,31 @@ const statusColors: Record<string, UBadgeColor> = {
         </div>
         <div class="flex justify-end gap-2 px-6 pb-4">
           <UButton
+            v-if="props.request?.status === 'PENDING'"
+            color="success"
+            icon="i-lucide-check-circle"
+            variant="solid"
+            :loading="updating"
+            :disabled="updating"
+            @click="onMarkAsCompleted"
+          >
+            Σημείωση ως Ολοκληρωμένο
+          </UButton>
+          <UButton
             color="primary"
             icon="i-lucide-upload"
             variant="solid"
+            :disabled="updating"
             @click="emit('upload-photos')"
           >
             Ανέβασμα Φωτογραφιών
           </UButton>
-          <UButton color="neutral" variant="ghost" @click="emit('close')">
+          <UButton
+            color="neutral"
+            variant="ghost"
+            :disabled="updating"
+            @click="emit('close')"
+          >
             Κλείσιμο
           </UButton>
         </div>

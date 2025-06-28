@@ -68,6 +68,7 @@ const columns = [
         PENDING: "warning",
         APPROVED: "success",
         REJECTED: "error",
+        COMPLETED: "success",
       };
       const color = statusColors[status] || "neutral";
       return h(
@@ -125,6 +126,11 @@ const closeUploadModal = () => {
   isUploadModalOpen.value = false;
 };
 
+const onStatusUpdated = () => {
+  // Refresh the requests data when status is updated
+  fetchRequests();
+};
+
 onMounted(() => {
   fetchRequests();
 });
@@ -150,6 +156,7 @@ onMounted(() => {
       :request="selectedRequest"
       @close="closeDetailsModal"
       @upload-photos="openUploadModal"
+      @status-updated="onStatusUpdated"
     />
     <PhotoUploadModal
       :open="isUploadModalOpen"
