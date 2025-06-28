@@ -27,6 +27,7 @@ const checkerForm = reactive({
   email: "",
   password: "",
   confirmPassword: "",
+  location: "",
   area_id: "",
 });
 
@@ -35,6 +36,7 @@ const clientForm = reactive({
   fullName: "",
   email: "",
   password: "",
+  location: "",
   confirmPassword: "",
   area_id: "",
 });
@@ -146,6 +148,15 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
                 :disabled="loading"
               />
             </UFormField>
+            <UFormField label="Location" name="location">
+              <UInput
+                v-model="checkerForm.location"
+                class="w-full"
+                placeholder="Enter your location"
+                required
+                :disabled="loading"
+              />
+            </UFormField>
             <UButton
               type="submit"
               color="primary"
@@ -223,6 +234,15 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
                   areas.map((area) => ({ value: area.id, label: area.name }))
                 "
                 placeholder="Select your area"
+                required
+                :disabled="loading"
+              />
+            </UFormField>
+            <UFormField label="Location" name="location">
+              <UInput
+                v-model="clientForm.location"
+                class="w-full"
+                placeholder="Enter your location"
                 required
                 :disabled="loading"
               />
