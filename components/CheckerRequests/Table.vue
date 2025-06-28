@@ -2,10 +2,10 @@
 import { ref, computed, onMounted, h, resolveComponent } from "vue";
 import { useFetchCheckerRequests } from "~/composables/checker/useFetchCheckerRequests";
 import RequestDetailsModal from "~/components/CheckerRequests/RequestDetailsModal.vue";
+import PhotoUploadModal from "~/components/CheckerRequests/PhotoUploadModal.vue";
 import type { RequestWithClient } from "~/types/request";
 
 const UBadge = resolveComponent("UBadge");
-const UModal = resolveComponent("UModal");
 
 const columns = [
   {
@@ -151,14 +151,10 @@ onMounted(() => {
       @close="closeDetailsModal"
       @upload-photos="openUploadModal"
     />
-    <UModal
+    <PhotoUploadModal
       :open="isUploadModalOpen"
-      title="Upload Photos"
-      :close="{ onClick: closeUploadModal }"
-    >
-      <template #body>
-        <!-- Empty modal for now -->
-      </template>
-    </UModal>
+      :request="selectedRequest"
+      @close="closeUploadModal"
+    />
   </div>
 </template>

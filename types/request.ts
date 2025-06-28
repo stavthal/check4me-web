@@ -29,3 +29,17 @@ export type RequestWithClient = {
   client_full_name?: string;
   checker_full_name?: string;
 };
+
+export type RequestPhoto = {
+  id: number;
+  request_id: number;
+  photo_url: string;
+  filename: string;
+  uploaded_by: string;
+  uploaded_at: string;
+  description?: string;
+};
+
+export type RequestWithPhotos = RequestWithClient & {
+  photos?: RequestPhoto[];
+};
