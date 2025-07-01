@@ -8,6 +8,11 @@
           <NuxtLink to="/login">Login</NuxtLink>
           <NuxtLink to="/dashboard/client">Client Dashboard</NuxtLink>
           <NuxtLink to="/dashboard/checker">Checker Dashboard</NuxtLink>
+          <NuxtLink to="/blog">Blog</NuxtLink>
+          <h2 class="devlinks-header">Admin only</h2>
+          <NuxtLink to="/admin/blog">Blog Management</NuxtLink>
+          <NuxtLink to="/admin/blog/create">Create Blog Post</NuxtLink>
+          <NuxtLink to="/admin/blog/preview/1">Preview Blog Post</NuxtLink>
           <UButton @click="onLogout">Logout</UButton>
         </div>
       </div>
