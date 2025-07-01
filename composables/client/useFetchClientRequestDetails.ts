@@ -12,8 +12,8 @@ type RequestDataWithRelations = {
   status: string;
   created_at: string;
   area_id: number;
+  checker_id: string | null;
   client_id: string;
-  checker_id?: string;
   checker?: { full_name: string; email: string } | null;
   client?: { full_name: string; email: string } | null;
 };

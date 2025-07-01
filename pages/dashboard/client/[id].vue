@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useFetchClientRequestDetails } from "~/composables/client/useFetchClientRequestDetails";
+import AddReviewModal from "~/components/ClientRequests/AddReviewModal.vue";
+import { ref, computed, onMounted } from "vue";
+import { useSupabaseClient, useSupabaseUser } from "#imports";
 
 definePageMeta({
   middleware: "auth",
@@ -12,8 +15,10 @@ const requestId = route.params.id as string;
 
 const { loading, request, error, fetchRequestDetails } =
   useFetchClientRequestDetails();
+const showReviewModal = ref(false);
+const review = ref<{ rating: number; comment: string } | null>(null);
+const user = useSupabaseUser();
 
-// Format functions
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("el-GR", {
     day: "2-digit",
@@ -32,7 +37,36 @@ const goBack = () => {
 // Fetch request details on mount
 onMounted(() => {
   fetchRequestDetails(requestId);
+  fetchReview();
 });
+
+const fetchReview = async () => {
+  const supabase = useSupabaseClient();
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("request_id", requestId)
+    .limit(1);
+
+  console.log("Fetched review data:", data, "Error:", error);
+  if (!error && data && data.length > 0) {
+    review.value = data[0];
+  } else {
+    review.value = null;
+  }
+};
+
+const canReview = computed(() => {
+  // Only allow review if there is no review and the request is eligible
+  return !review.value && request.value && request.value.status === "COMPLETED";
+});
+
+const onReviewSubmitted = () => {
+  fetchRequestDetails(requestId).then(() => {
+    fetchReview();
+    showReviewModal.value = false;
+  });
+};
 </script>
 
 <template>
@@ -151,6 +185,42 @@ onMounted(() => {
             </UButton>
           </div>
         </div>
+
+        <!-- Review Section -->
+        <div class="mt-6">
+          <template v-if="review">
+            <div class="p-4 border border-yellow-200 rounded bg-yellow-50">
+              <div class="flex items-center mb-2">
+                <span class="mr-2 font-semibold">Η αξιολόγησή σας:</span>
+                <span class="text-xl text-yellow-400">
+                  <span v-for="star in review.rating" :key="star">★</span>
+                  <span
+                    v-for="star in 5 - review.rating"
+                    :key="star + 'empty'"
+                    class="text-gray-300"
+                  >
+                    ★
+                  </span>
+                </span>
+              </div>
+              <div class="text-gray-800 whitespace-pre-line">
+                {{ review.comment }}
+              </div>
+            </div>
+          </template>
+          <template v-else-if="canReview">
+            <UButton
+              color="warning"
+              variant="solid"
+              size="lg"
+              leading-icon="i-lucide-star"
+              class="font-semibold transition-transform duration-150 shadow-md hover:scale-105"
+              @click="showReviewModal = true"
+            >
+              Αξιολόγηση Ελεγκτή
+            </UButton>
+          </template>
+        </div>
       </div>
 
       <!-- Photos Section -->
@@ -182,5 +252,15 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <AddReviewModal
+      v-if="showReviewModal && request"
+      :show="showReviewModal"
+      :request-id="request?.id"
+      :checker-id="request?.checker_id"
+      :client-id="user?.id ?? ''"
+      @close="showReviewModal = false"
+      @reviewed="onReviewSubmitted"
+    />
   </div>
 </template>
