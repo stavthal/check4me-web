@@ -92,15 +92,14 @@ const submitReview = async () => {
       rating: rating.value,
       comment: comment.value,
     });
-
     emit("reviewed");
     emit("close");
-  } catch (e) {
+  } catch {
     toast.add({
-      title:
-        "Σφάλμα κατά την υποβολή της αξιολόγησης. Παρακαλώ δοκιμάστε ξανά.",
+      title: "Σφάλμα κατά την υποβολή της αξιολόγησης.",
+      description: "Παρακαλώ δοκιμάστε ξανά.",
+      color: "error",
     });
-    console.log(e);
   } finally {
     loading.value = false;
   }
