@@ -1,9 +1,9 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <div class="flex justify-between items-center mb-8">
+  <div class="container px-4 py-8 mx-auto">
+    <div class="flex items-center justify-between mb-8">
       <div>
         <h1 class="text-3xl font-bold text-gray-900">Διαχείριση Blog</h1>
-        <p class="text-gray-600 mt-2">
+        <p class="mt-2 text-gray-600">
           Δημιουργήστε και διαχειριστείτε τα blog posts σας
         </p>
       </div>
@@ -128,9 +128,11 @@ const displayedPosts = computed(() => {
 const loadPosts = async () => {
   pending.value = true;
   try {
-    // For now, we'll mock the data since we don't have the composable yet
-    // allPosts.value = await useFetchBlogPosts(false); // false = include drafts
-    allPosts.value = [];
+    // Admin: fetch all posts, including drafts
+    const { useFetchBlogPosts } = await import(
+      "~/composables/blog/useFetchBlogPosts"
+    );
+    allPosts.value = await useFetchBlogPosts(false); // false = include drafts
   } catch (error) {
     console.error("Error loading posts:", error);
     toast.add({
