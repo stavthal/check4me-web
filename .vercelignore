@@ -1,0 +1,4 @@
+bun.lockb
+.nuxt
+.output
+node_modules
