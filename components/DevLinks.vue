@@ -10,43 +10,44 @@
     </button>
 
     <!-- Modal Overlay -->
-    <div
-      v-if="isModalOpen"
-      class="modal-overlay"
-      @click="isModalOpen = false"
-    >
+    <div v-if="isModalOpen" class="modal-overlay" @click="isModalOpen = false">
       <!-- Modal Content -->
-      <div
-        class="modal-content"
-        @click.stop
-      >
+      <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h2 class="devlinks-header">DEV LINKS</h2>
-          <button
-            class="close-btn"
-            title="Close"
-            @click="isModalOpen = false"
-          >
+          <button class="close-btn" title="Close" @click="isModalOpen = false">
             ✕
           </button>
         </div>
-        
+
         <div class="devlinks-div">
           <div class="links-section">
-            <NuxtLink to="/register" @click="isModalOpen = false">Register</NuxtLink>
+            <NuxtLink to="/register" @click="isModalOpen = false"
+              >Register</NuxtLink
+            >
             <NuxtLink to="/login" @click="isModalOpen = false">Login</NuxtLink>
-            <NuxtLink to="/dashboard/client" @click="isModalOpen = false">Client Dashboard</NuxtLink>
-            <NuxtLink to="/dashboard/checker" @click="isModalOpen = false">Checker Dashboard</NuxtLink>
+            <NuxtLink to="/dashboard/client" @click="isModalOpen = false"
+              >Client Dashboard</NuxtLink
+            >
+            <NuxtLink to="/dashboard/checker" @click="isModalOpen = false"
+              >Checker Dashboard</NuxtLink
+            >
             <NuxtLink to="/blog" @click="isModalOpen = false">Blog</NuxtLink>
           </div>
-          
+
           <div class="links-section">
             <h3 class="devlinks-subheader">Admin only</h3>
-            <NuxtLink to="/admin/blog" @click="isModalOpen = false">Blog Management</NuxtLink>
-            <NuxtLink to="/admin/blog/create" @click="isModalOpen = false">Create Blog Post</NuxtLink>
-            <NuxtLink to="/admin/blog/preview/1" @click="isModalOpen = false">Preview Blog Post</NuxtLink>
+            <NuxtLink to="/admin/blog" @click="isModalOpen = false"
+              >Blog Management</NuxtLink
+            >
+            <NuxtLink to="/admin/blog/create" @click="isModalOpen = false"
+              >Create Blog Post</NuxtLink
+            >
+            <NuxtLink to="/admin/blog/preview/1" @click="isModalOpen = false"
+              >Preview Blog Post</NuxtLink
+            >
           </div>
-          
+
           <div class="actions-section">
             <UButton @click="onLogout">Logout</UButton>
           </div>
