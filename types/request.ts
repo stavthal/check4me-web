@@ -44,3 +44,13 @@ export type RequestPhoto = {
 export type RequestWithPhotos = RequestWithClient & {
   photos?: RequestPhoto[];
 };
+
+export type CheckerRequestWithPhotos = Omit<RequestWithClient, "id"> & {
+  id: number;
+  photos?: Array<{
+    id: number;
+    photo_url: string;
+    filename: string;
+    uploaded_at: string;
+  }>;
+};

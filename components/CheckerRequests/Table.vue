@@ -3,7 +3,7 @@ import { ref, computed, onMounted, h, resolveComponent } from "vue";
 import { useFetchCheckerRequests } from "~/composables/checker/useFetchCheckerRequests";
 import RequestDetailsModal from "~/components/CheckerRequests/RequestDetailsModal.vue";
 import PhotoUploadModal from "~/components/CheckerRequests/PhotoUploadModal.vue";
-import type { RequestWithClient } from "~/types/request";
+import type { CheckerRequestWithPhotos } from "~/types/request";
 
 const UBadge = resolveComponent("UBadge");
 
@@ -84,7 +84,10 @@ const columns = [
     cell: ({
       row,
     }: {
-      row: { getValue: (key: string) => unknown; original: RequestWithClient };
+      row: {
+        getValue: (key: string) => unknown;
+        original: CheckerRequestWithPhotos;
+      };
     }) => {
       const status = row.getValue("status") as string;
       // if (status === "PENDING") {
@@ -107,9 +110,9 @@ const { requests, loading, fetchRequests } = useFetchCheckerRequests();
 const data = computed(() => requests.value);
 
 const isDetailsModalOpen = ref(false);
-const selectedRequest = ref<RequestWithClient | null>(null);
+const selectedRequest = ref<CheckerRequestWithPhotos | null>(null);
 
-const openDetailsModal = (request: RequestWithClient) => {
+const openDetailsModal = (request: CheckerRequestWithPhotos) => {
   selectedRequest.value = request;
   isDetailsModalOpen.value = true;
 };
