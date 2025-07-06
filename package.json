@@ -49,8 +49,5 @@
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.53"
-  },
-  "overrides": {
-    "oxc-parser": "0.70.0"
   }
 }
