@@ -1,6 +1,8 @@
 <template>
   <div class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-8">Δημιουργία Blog Post</h1>
+    <h1 class="text-3xl font-bold mb-8">
+      {{ isEditing ? "Επεξεργασία" : "Δημιουργία" }} Blog Post
+    </h1>
 
     <form class="space-y-6" @submit.prevent="submitPost">
       <div>
@@ -123,7 +125,15 @@
           :loading="loading"
           :disabled="loading || !isFormValid"
         >
-          {{ form.published ? "Δημοσίευση" : "Αποθήκευση σε προσχέδια" }}
+          {{
+            props.isEditing
+              ? form.published
+                ? "Ενημέρωση & Δημοσίευση"
+                : "Ενημέρωση"
+              : form.published
+              ? "Δημοσίευση"
+              : "Αποθήκευση σε προσχέδια"
+          }}
         </UButton>
         <UButton
           type="button"
@@ -140,13 +150,30 @@
 <script setup lang="ts">
 import { ref, computed, nextTick } from "vue";
 import { useCreateBlogPost } from "~/composables/blog/useCreateBlogPost";
+import { useUpdateBlogPost } from "~/composables/blog/useUpdateBlogPost";
+import type { BlogPost } from "~/types/blog";
+
+interface Props {
+  initialData?: BlogPost | null;
+  isEditing?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  initialData: null,
+  isEditing: false,
+});
+
+const _emit = defineEmits<{
+  submit: [];
+  cancel: [];
+}>();
 
 const form = ref({
-  title: "",
-  slug: "",
-  excerpt: "",
-  content: "",
-  published: false,
+  title: props.initialData?.title || "",
+  slug: props.initialData?.slug || "",
+  excerpt: props.initialData?.excerpt || "",
+  content: props.initialData?.content || "",
+  published: props.initialData?.published || false,
 });
 
 const errors = ref({
@@ -171,11 +198,14 @@ const isFormValid = computed(() => {
   );
 });
 
-// Auto-generate slug from title
+// Auto-generate slug from title (only when creating, not editing)
 watch(
   () => form.value.title,
   (newTitle) => {
-    if (!form.value.slug || form.value.slug === slugify(form.value.title)) {
+    if (
+      !props.isEditing &&
+      (!form.value.slug || form.value.slug === slugify(form.value.title))
+    ) {
       form.value.slug = slugify(newTitle);
     }
   }
@@ -298,27 +328,48 @@ const submitPost = async () => {
   loading.value = true;
 
   try {
-    await useCreateBlogPost({
-      title: form.value.title,
-      slug: form.value.slug,
-      excerpt: form.value.excerpt || undefined,
-      content: form.value.content,
-      published: form.value.published,
-    });
+    if (props.isEditing && props.initialData) {
+      // Update existing post
+      await useUpdateBlogPost(props.initialData.id, {
+        title: form.value.title,
+        slug: form.value.slug,
+        excerpt: form.value.excerpt || undefined,
+        content: form.value.content,
+        published: form.value.published,
+      });
 
-    toast.add({
-      title: form.value.published
-        ? "Blog post δημοσιεύτηκε!"
-        : "Blog post αποθηκεύτηκε!",
-      description: form.value.published
-        ? "Το άρθρο σας είναι πλέον ορατό στο κοινό."
-        : "Το άρθρο σας αποθηκεύτηκε σε προσχέδια.",
-      color: "success",
-    });
+      toast.add({
+        title: "Blog post ενημερώθηκε!",
+        description: "Οι αλλαγές σας αποθηκεύτηκαν επιτυχώς.",
+        color: "success",
+      });
+    } else {
+      // Create new post
+      await useCreateBlogPost({
+        title: form.value.title,
+        slug: form.value.slug,
+        excerpt: form.value.excerpt || undefined,
+        content: form.value.content,
+        published: form.value.published,
+      });
+
+      toast.add({
+        title: form.value.published
+          ? "Blog post δημοσιεύτηκε!"
+          : "Blog post αποθηκεύτηκε!",
+        description: form.value.published
+          ? "Το άρθρο σας είναι πλέον ορατό στο κοινό."
+          : "Το άρθρο σας αποθηκεύτηκε σε προσχέδια.",
+        color: "success",
+      });
+    }
 
     router.push("/admin/blog");
   } catch (error) {
-    console.error("Error creating blog post:", error);
+    console.error(
+      `Error ${props.isEditing ? "updating" : "creating"} blog post:`,
+      error
+    );
     toast.add({
       title: "Σφάλμα κατά την αποθήκευση",
       description: "Παρακαλώ δοκιμάστε ξανά.",
