@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     apiVersion: "2025-06-30.basil",
   });
 
-  const paymentIntentId = getRouterParam(event, 'id');
+  const paymentIntentId = getRouterParam(event, "id");
 
   if (!paymentIntentId || typeof paymentIntentId !== "string") {
     throw createError({
