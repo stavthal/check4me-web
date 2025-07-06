@@ -48,72 +48,15 @@
         <label for="content" class="block text-sm font-medium mb-2"
           >Περιεχόμενο</label
         >
-        <div class="border rounded-lg">
-          <div class="border-b bg-gray-50 p-2 flex gap-2">
-            <UButton
-              :class="{ 'bg-gray-200': isFormatActive('bold') }"
-              type="button"
-              variant="ghost"
-              size="sm"
-              @click="formatText('bold')"
-            >
-              <Icon name="lucide:bold" />
-            </UButton>
-            <UButton
-              :class="{ 'bg-gray-200': isFormatActive('italic') }"
-              type="button"
-              variant="ghost"
-              size="sm"
-              @click="formatText('italic')"
-            >
-              <Icon name="lucide:italic" />
-            </UButton>
-            <UButton
-              type="button"
-              variant="ghost"
-              size="sm"
-              @click="formatText('heading')"
-            >
-              <Icon name="lucide:heading" />
-            </UButton>
-            <UButton
-              type="button"
-              variant="ghost"
-              size="sm"
-              @click="formatText('link')"
-            >
-              <Icon name="lucide:link" />
-            </UButton>
-          </div>
-          <UTextarea
-            id="content"
-            ref="contentTextarea"
-            v-model="form.content"
-            placeholder="Γράψτε το περιεχόμενο εδώ..."
-            :rows="15"
-            class="border-0 resize-none"
-            :error="errors.content"
-            required
-          />
-        </div>
-        <div class="mt-2 flex justify-between">
-          <UButton
-            type="button"
-            variant="ghost"
-            size="sm"
-            @click="showPreview = !showPreview"
-          >
-            {{ showPreview ? "Απόκρυψη" : "Προεπισκόπηση" }}
-          </UButton>
-          <p class="text-sm text-gray-600">Υποστηρίζεται Markdown formatting</p>
-        </div>
+        <BlogRichTextEditor
+          v-model="form.content"
+          placeholder="Γράψτε το περιεχόμενό σας εδώ..."
+        />
+        <p class="text-sm text-gray-600 mt-2">Χρησιμοποιήστε τη γραμμή εργαλείων για να μορφοποιήσετε το κείμενό σας</p>
       </div>
 
-      <!-- Preview Section -->
-      <div v-if="showPreview" class="border rounded-lg p-4 bg-gray-50">
-        <h3 class="text-lg font-semibold mb-4">Προεπισκόπηση</h3>
-        <div class="prose max-w-none" v-html="renderedContent" />
-      </div>
+      <!-- Preview Section - No longer needed with rich text editor -->
+      <!-- Rich text editor shows formatted content directly -->
 
       <div class="flex items-center gap-4">
         <UCheckbox v-model="form.published" label="Δημοσίευση άμεσα" />
@@ -148,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from "vue";
+import { ref, computed } from "vue";
 import { useCreateBlogPost } from "~/composables/blog/useCreateBlogPost";
 import { useUpdateBlogPost } from "~/composables/blog/useUpdateBlogPost";
 import type { BlogPost } from "~/types/blog";
@@ -183,8 +126,6 @@ const errors = ref({
 });
 
 const loading = ref(false);
-const showPreview = ref(false);
-const contentTextarea = ref<HTMLTextAreaElement>();
 
 const toast = useToast();
 const router = useRouter();
@@ -210,90 +151,6 @@ watch(
     }
   }
 );
-
-// Simple markdown renderer for preview
-const renderedContent = computed(() => {
-  let content = form.value.content;
-
-  // Basic markdown parsing
-  content = content
-    .replace(/^### (.*$)/gm, "<h3>$1</h3>")
-    .replace(/^## (.*$)/gm, "<h2>$1</h2>")
-    .replace(/^# (.*$)/gm, "<h1>$1</h1>")
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>')
-    .replace(/\n\n/g, "</p><p>")
-    .replace(/\n/g, "<br>");
-
-  return `<p>${content}</p>`;
-});
-
-// Text formatting functions
-const formatText = (format: string) => {
-  if (!contentTextarea.value) return;
-
-  const textarea = contentTextarea.value;
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const selectedText = form.value.content.substring(start, end);
-
-  let formattedText = "";
-
-  switch (format) {
-    case "bold":
-      formattedText = `**${selectedText || "έντονο κείμενο"}**`;
-      break;
-    case "italic":
-      formattedText = `*${selectedText || "πλάγιο κείμενο"}*`;
-      break;
-    case "heading":
-      formattedText = `## ${selectedText || "Επικεφαλίδα"}`;
-      break;
-    case "link":
-      formattedText = `[${
-        selectedText || "κείμενο συνδέσμου"
-      }](https://example.com)`;
-      break;
-  }
-
-  const newContent =
-    form.value.content.substring(0, start) +
-    formattedText +
-    form.value.content.substring(end);
-
-  form.value.content = newContent;
-
-  nextTick(() => {
-    textarea.focus();
-    textarea.setSelectionRange(
-      start + formattedText.length,
-      start + formattedText.length
-    );
-  });
-};
-
-const isFormatActive = (format: string) => {
-  if (!contentTextarea.value) return false;
-
-  const textarea = contentTextarea.value;
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const selectedText = form.value.content.substring(start, end);
-
-  switch (format) {
-    case "bold":
-      return selectedText.startsWith("**") && selectedText.endsWith("**");
-    case "italic":
-      return (
-        selectedText.startsWith("*") &&
-        selectedText.endsWith("*") &&
-        !selectedText.startsWith("**")
-      );
-    default:
-      return false;
-  }
-};
 
 // Utility function to create URL-friendly slugs
 const slugify = (text: string) => {

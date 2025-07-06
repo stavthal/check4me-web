@@ -1,9 +1,9 @@
 import type { BlogPost } from "~/types/blog";
 
-export const useFetchBlogPost = async (slug: string) => {
+export const useFetchBlogPost = async (slug: string, publishedOnly: boolean = true) => {
   const supabase = useSupabaseClient();
 
-  const { data, error } = await supabase
+  let query = supabase
     .from("blog_posts")
     .select(
       `
@@ -11,9 +11,14 @@ export const useFetchBlogPost = async (slug: string) => {
       author:users(id, full_name, email)
     `
     )
-    .eq("slug", slug)
-    .eq("published", true)
-    .single();
+    .eq("slug", slug);
+
+  // Only filter by published status if publishedOnly is true
+  if (publishedOnly) {
+    query = query.eq("published", true);
+  }
+
+  const { data, error } = await query.single();
 
   if (error) {
     throw error;
