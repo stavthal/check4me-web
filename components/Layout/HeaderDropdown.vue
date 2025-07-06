@@ -6,6 +6,12 @@ const { user, setUser } = useUserStore();
 const toast = useToast();
 const router = useRouter();
 
+// Debug logging
+watchEffect(() => {
+  console.log("HeaderDropdown - user state:", user);
+  console.log("HeaderDropdown - user truthy:", !!user);
+});
+
 const onLogout = () => {
   supabase.auth.signOut();
   setUser(null);
