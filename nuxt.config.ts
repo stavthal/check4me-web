@@ -28,7 +28,7 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxt/content",
-    ...(process.env.NODE_ENV === "development" ? ["@nuxt/eslint"] : []),
+    "@nuxt/eslint",
     "@nuxt/fonts",
     "@nuxt/icon",
     "@nuxt/image",
