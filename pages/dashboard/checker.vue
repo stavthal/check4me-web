@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ middleware: "auth", layout: "checker" });
 
-const { user } = useUserStore();
+const userStore = useUserStore();
 const { loading } = useHydrateUserStore();
 </script>
 
@@ -11,7 +11,9 @@ const { loading } = useHydrateUserStore();
     <template v-else>
       <p class="welcome-heading">
         Καλώς όρισες,
-        <span class="user-name">{{ user?.full_name || "Guest" }}</span>
+        <span class="user-name">{{
+          userStore?.user?.full_name || "Guest"
+        }}</span>
       </p>
 
       <CheckerRequestsTable class="mt-4" />

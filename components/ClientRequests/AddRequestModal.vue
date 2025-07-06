@@ -49,9 +49,14 @@ const schema = z.object({
 
 const errors = reactive<Record<string, string>>({});
 
-const { pending, submitForm, errorMsg } = useSubmitClientRequest();
+const { pending, submitFormWithPayment, errorMsg } = useSubmitClientRequest();
 
 const { fetch, checkers } = useFetchCheckersByArea();
+
+// Payment modal state
+const showPaymentModal = ref(false);
+const isPaymentCompleted = ref(false);
+const completedPaymentIntentId = ref<string | null>(null);
 
 console.log(checkers.value);
 
@@ -72,7 +77,6 @@ const onSubmit = async () => {
   console.log(result);
   if (!result.success) {
     // Populate errors object with zod errors
-    // TODO: FIX THE CLIENT AND CHECKER ID NOT BEING SET AND ADD MODAL THAT SELECTS CHECKER
     console.error("Validation errors:", result.error.flatten());
 
     Object.keys(errors).forEach((key) => (errors[key] = ""));
@@ -83,9 +87,35 @@ const onSubmit = async () => {
   }
   // Clear errors if valid
   Object.keys(errors).forEach((key) => (errors[key] = ""));
-  await submitForm(formData);
+
+  // Show payment modal instead of directly submitting
+  showPaymentModal.value = true;
+};
+
+const onPaymentSuccess = async (paymentIntentId: string) => {
+  completedPaymentIntentId.value = paymentIntentId;
+  isPaymentCompleted.value = true;
+  showPaymentModal.value = false;
+
+  // Now submit the form with payment info
+  await submitFormWithPayment(formData, paymentIntentId);
 
   // Reset form data after submission
+  resetForm();
+
+  // Close the modal after submission
+  props.onClose(new MouseEvent("onClick"));
+  toast.add({
+    title: "Request submitted successfully with payment!",
+    color: "success",
+  });
+};
+
+const onPaymentClose = () => {
+  showPaymentModal.value = false;
+};
+
+const resetForm = () => {
   formData.title = "";
   formData.vehicleMake = "";
   formData.vehicleModel = "";
@@ -94,10 +124,10 @@ const onSubmit = async () => {
   formData.status = "PENDING";
   formData.listingLink = "";
   formData.areaId = "";
-
-  // Close the modal after submission
-  props.onClose(new MouseEvent("onClick"));
-  toast.add({ title: "Request submitted successfully!", color: "success" });
+  formData.checkerId = "";
+  formData.notes = "";
+  isPaymentCompleted.value = false;
+  completedPaymentIntentId.value = null;
 };
 </script>
 
@@ -158,16 +188,16 @@ const onSubmit = async () => {
             @change="onSelect"
           />
         </UFormField>
-        <!-- Checker Select -->
+        <!-- Επιλογή Checker -->
         <UFormField
           v-if="checkers?.length > 0"
-          label="Επιλογή Checker"
+          label="Επιλογή Ελεγκτή"
           name="checkerId"
         >
           <USelect
             v-model="formData.checkerId"
             class="w-full"
-            placeholder="Επιλέξτε έναν checker"
+            placeholder="Επιλέξτε έναν ελεγκτή"
             :items="
               checkers?.map((checker: CheckerSelect) => ({
                 value: checker.id,
@@ -195,23 +225,44 @@ const onSubmit = async () => {
           />
         </UFormField>
         <UFormField
-          label="Σημειώσεις για τον checker"
+          label="Σημειώσεις για τον ελεγκτή"
           name="notes"
           :error="errors.notes"
         >
           <UTextarea v-model="formData.notes" class="w-full" />
         </UFormField>
-        <UButton
-          type="submit"
-          :loading="pending"
-          :disabled="pending"
-          class="self-center justify-center w-1/3 mt-4 text-center"
-          >Υποβολή</UButton
-        >
+        <div class="flex justify-center gap-4 mt-4">
+          <UButton
+            type="submit"
+            :loading="pending"
+            :disabled="pending"
+            color="primary"
+            class="w-1/3 text-center"
+          >
+            Υποβολή
+          </UButton>
+          <UButton
+            type="button"
+            color="neutral"
+            variant="outline"
+            @click="props.onClose"
+            class="w-1/3 text-center"
+          >
+            Ακύρωση
+          </UButton>
+        </div>
         <div v-if="errorMsg" class="mt-2 text-sm text-red-500">
           {{ errorMsg }}
         </div>
       </UForm>
     </template>
   </UModal>
+
+  <!-- Payment Modal -->
+  <ClientRequestsPaymentModal
+    :is-open="showPaymentModal"
+    :on-close="onPaymentClose"
+    :on-payment-success="onPaymentSuccess"
+    :request-data="formData"
+  />
 </template>

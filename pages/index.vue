@@ -1,57 +1,72 @@
 <template>
   <div>
-    <DevOnly>
-      <div>
-        <div class="devlinks-div">
-          <h2 class="devlinks-header">DEV LINKS</h2>
-          <NuxtLink to="/register">Register</NuxtLink>
-          <NuxtLink to="/login">Login</NuxtLink>
-          <NuxtLink to="/dashboard/client">Client Dashboard</NuxtLink>
-          <NuxtLink to="/dashboard/checker">Checker Dashboard</NuxtLink>
-          <UButton @click="onLogout">Logout</UButton>
-        </div>
-      </div>
-    </DevOnly>
+    <!-- Header -->
+    <LayoutHeader />
 
-    <div class="flex flex-col items-center justify-center min-h-screen p-2">
-      <div
-        class="w-full max-w-sm p-6 rounded-lg shadow-md form-container bg-gray-50"
-      >
-        <h1 class="mb-2 text-xl font-bold">Welcome to the Home Page</h1>
-        <p class="text-gray-600">This is the home page of your application.</p>
-      </div>
-    </div>
+    <!-- Main Landing Page Content -->
+    <main>
+      <!-- Hero Section -->
+      <LandingHero />
+
+      <!-- Features Section -->
+      <LandingFeatures />
+
+      <!-- How It Works Section -->
+      <LandingHowItWorks />
+
+      <!-- Pricing Section -->
+      <LandingPricing />
+
+      <!-- Stats Section -->
+      <LandingStats />
+
+      <!-- Testimonials Section -->
+      <LandingTestimonials />
+
+      <!-- Final CTA Section -->
+      <LandingCTA />
+    </main>
+
+    <!-- Footer -->
+    <LandingFooter />
+
+    <!-- Dev Links for development -->
+    <DevLinks />
   </div>
 </template>
 
 <script setup lang="ts">
-const supabase = useSupabaseClient();
-
-const onLogout = async () => {
-  console.log("Logging out...");
-  const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    console.error("Error logging out:", error.message);
-  } else {
-    console.log("Logged out successfully");
-    // Optionally, redirect to the login page or home page
-    useRouter().push("/login");
-  }
-};
-definePageMeta({ middleware: "auth" });
+// SEO Meta
+useHead({
+  title: "Check4Me - Αξιόπιστος έλεγχος μεταχειρισμένων οχημάτων",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Συνδέουμε αγοραστές με εξειδικευμένους ελεγκτές για την ασφαλή αγορά μεταχειρισμένων αυτοκινήτων και μοτοσικλετών σε όλη την Ελλάδα. Αξιόπιστη πλατφόρμα με πιστοποιημένους επαγγελματίες.",
+    },
+    {
+      name: "keywords",
+      content:
+        "έλεγχος αυτοκινήτου, μεταχειρισμένα οχήματα, έλεγχος οχήματος, ελεγκτής αυτοκινήτων, αγορά αυτοκινήτου, τεχνικός έλεγχος",
+    },
+    {
+      property: "og:title",
+      content: "Check4Me - Αξιόπιστος έλεγχος μεταχειρισμένων οχημάτων",
+    },
+    {
+      property: "og:description",
+      content:
+        "Η πιο αξιόπιστη πλατφόρμα για τον έλεγχο μεταχειρισμένων οχημάτων στην Ελλάδα",
+    },
+    {
+      property: "og:type",
+      content: "website",
+    },
+    {
+      name: "twitter:card",
+      content: "summary_large_image",
+    },
+  ],
+});
 </script>
-
-<style scoped>
-.devlinks-header {
-  color: blue;
-  font-weight: bold;
-}
-
-.devlinks-div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-</style>

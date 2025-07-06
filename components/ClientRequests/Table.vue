@@ -80,6 +80,23 @@ const columns = [
       );
     },
   },
+  {
+    accessorKey: "actions",
+    header: "Ενέργειες",
+    cell: ({ row }: { row: { original: { id: number } } }) => {
+      return h("div", { class: "flex space-x-2" }, [
+        h(
+          "button",
+          {
+            class:
+              "text-primary hover:text-primary-600 underline text-sm font-medium transition-colors duration-200",
+            onClick: () => navigateTo(`/dashboard/client/${row.original.id}`),
+          },
+          "Προβολή"
+        ),
+      ]);
+    },
+  },
 ];
 
 const { requests, loading, fetchRequests } = useFetchClientRequests();

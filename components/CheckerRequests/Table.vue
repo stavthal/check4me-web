@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { ref, computed, onMounted, h, resolveComponent } from "vue";
 import { useFetchCheckerRequests } from "~/composables/checker/useFetchCheckerRequests";
+import RequestDetailsModal from "~/components/CheckerRequests/RequestDetailsModal.vue";
+import PhotoUploadModal from "~/components/CheckerRequests/PhotoUploadModal.vue";
+import type { CheckerRequestWithPhotos } from "~/types/request";
 
 const UBadge = resolveComponent("UBadge");
 
@@ -38,10 +42,6 @@ const columns = [
     header: "Περιοχή",
   },
   {
-    accessorKey: "notes",
-    header: "Σημειώσεις",
-  },
-  {
     accessorKey: "listing_link",
     header: "Link",
     cell: ({ row }: { row: { getValue: (key: string) => unknown } }) =>
@@ -56,8 +56,8 @@ const columns = [
       ),
   },
   {
-    accessorKey: "checker_full_name",
-    header: "Checker",
+    accessorKey: "client.full_name",
+    header: "Πελάτης",
   },
   {
     accessorKey: "status",
@@ -68,6 +68,7 @@ const columns = [
         PENDING: "warning",
         APPROVED: "success",
         REJECTED: "error",
+        COMPLETED: "success",
       };
       const color = statusColors[status] || "neutral";
       return h(
@@ -77,10 +78,61 @@ const columns = [
       );
     },
   },
+  {
+    accessorKey: "actions",
+    header: "Ενέργειες",
+    cell: ({
+      row,
+    }: {
+      row: {
+        getValue: (key: string) => unknown;
+        original: CheckerRequestWithPhotos;
+      };
+    }) => {
+      const status = row.getValue("status") as string;
+      // if (status === "PENDING") {
+      return h(
+        "button",
+        {
+          class:
+            "u-btn u-btn-primary text-xs px-2 py-1 rounded bg-primary text-white hover:bg-primary-dark transition",
+          onClick: () => openDetailsModal(row.original),
+        },
+        "Προβολή Αιτήματος"
+      );
+      // }
+      // return null;
+    },
+  },
 ];
 
 const { requests, loading, fetchRequests } = useFetchCheckerRequests();
 const data = computed(() => requests.value);
+
+const isDetailsModalOpen = ref(false);
+const selectedRequest = ref<CheckerRequestWithPhotos | null>(null);
+
+const openDetailsModal = (request: CheckerRequestWithPhotos) => {
+  selectedRequest.value = request;
+  isDetailsModalOpen.value = true;
+};
+const closeDetailsModal = () => {
+  isDetailsModalOpen.value = false;
+  selectedRequest.value = null;
+};
+
+const isUploadModalOpen = ref(false);
+const openUploadModal = () => {
+  isUploadModalOpen.value = true;
+};
+const closeUploadModal = () => {
+  isUploadModalOpen.value = false;
+};
+
+const onStatusUpdated = () => {
+  // Refresh the requests data when status is updated
+  fetchRequests();
+};
 
 onMounted(() => {
   fetchRequests();
@@ -101,6 +153,18 @@ onMounted(() => {
       :data="data"
       :columns="columns"
       class="flex-1 border border-gray-300 rounded-xl"
+    />
+    <RequestDetailsModal
+      :open="isDetailsModalOpen"
+      :request="selectedRequest"
+      @close="closeDetailsModal"
+      @upload-photos="openUploadModal"
+      @status-updated="onStatusUpdated"
+    />
+    <PhotoUploadModal
+      :open="isUploadModalOpen"
+      :request="selectedRequest"
+      @close="closeUploadModal"
     />
   </div>
 </template>

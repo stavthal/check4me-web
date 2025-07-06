@@ -15,6 +15,12 @@ export const useFetchCheckerRequests = () => {
     client_id: string;
     client?: { full_name: string } | null;
     client_full_name?: string;
+    photos?: Array<{
+      id: number;
+      photo_url: string;
+      filename: string;
+      uploaded_at: string;
+    }>;
   };
   const requests = ref<RequestWithClient[]>([]); // fix type to any[] for now
 
@@ -25,9 +31,16 @@ export const useFetchCheckerRequests = () => {
     try {
       const { data, error } = await supabase
         .from("requests")
-        .select(`*, client:client_id(full_name)`)
+        .select(
+          `
+          *, 
+          client:client_id(full_name),
+          photos:request_photos(id, photo_url, filename, uploaded_at)
+        `
+        )
         .order("created_at", { ascending: false });
 
+      console.log("Fetched requests:", data);
       if (error) {
         throw new Error(error.message);
       }

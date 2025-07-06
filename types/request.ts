@@ -10,4 +10,63 @@ export type RequestRequest = {
   areaId: string;
   clientId?: string;
   checkerId?: string;
+  paymentIntentId?: string;
+  paymentStatus?:
+    | "pending"
+    | "requires_payment_method"
+    | "requires_confirmation"
+    | "requires_action"
+    | "processing"
+    | "requires_capture"
+    | "canceled"
+    | "succeeded";
+};
+
+export type RequestWithClient = {
+  id: string;
+  title: string;
+  vehicle_make: string;
+  vehicle_model: string;
+  year: number;
+  location: string;
+  notes: string;
+  listing_link: string;
+  status: string;
+  created_at: string;
+  area_id: number;
+  client_id: string;
+  checker_id?: string | null;
+  client?: { full_name: string } | null;
+  client_full_name?: string;
+  checker_full_name?: string;
+};
+
+export type RequestPhoto = {
+  id: number;
+  request_id: number;
+  photo_url: string;
+  filename: string;
+  uploaded_by: string;
+  uploaded_at: string;
+  description?: string;
+};
+
+export type RequestWithPhotos = RequestWithClient & {
+  photos?: RequestPhoto[];
+};
+
+export type CheckerRequestWithPhotos = Omit<RequestWithClient, "id"> & {
+  id: number;
+  photos?: Array<{
+    id: number;
+    photo_url: string;
+    filename: string;
+    uploaded_at: string;
+  }>;
+};
+
+export type RequestWithPayment = RequestWithClient & {
+  payment_intent_id?: string;
+  payment_status?: string;
+  payment_amount?: number;
 };

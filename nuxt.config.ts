@@ -3,13 +3,12 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
   css: ["@/assets/css/main.css"],
-  // colorMode: {
-  //   preference: "light",
-  //   fallback: "light",
-  //   classSuffix: "",
-  //   storageKey: "nuxt-color-mode",
-  //   detectSystemColorScheme: false, // Force light mode, disable system detection
-  // },
+  runtimeConfig: {
+    stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+    public: {
+      stripePublishableKey: process.env.NUXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    },
+  },
   tailwindcss: {
     exposeConfig: true,
     viewer: true,
