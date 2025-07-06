@@ -10,6 +10,16 @@ export type RequestRequest = {
   areaId: string;
   clientId?: string;
   checkerId?: string;
+  paymentIntentId?: string;
+  paymentStatus?:
+    | "pending"
+    | "requires_payment_method"
+    | "requires_confirmation"
+    | "requires_action"
+    | "processing"
+    | "requires_capture"
+    | "canceled"
+    | "succeeded";
 };
 
 export type RequestWithClient = {
@@ -53,4 +63,10 @@ export type CheckerRequestWithPhotos = Omit<RequestWithClient, "id"> & {
     filename: string;
     uploaded_at: string;
   }>;
+};
+
+export type RequestWithPayment = RequestWithClient & {
+  payment_intent_id?: string;
+  payment_status?: string;
+  payment_amount?: number;
 };

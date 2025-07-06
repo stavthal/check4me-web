@@ -37,5 +37,18 @@ export const useSubmitClientRequest = () => {
     }
   };
 
-  return { pending, submitForm, payload, errorMsg };
+  const submitFormWithPayment = async (
+    request: RequestRequest,
+    paymentIntentId: string
+  ) => {
+    const requestWithPayment = {
+      ...request,
+      paymentIntentId,
+      paymentStatus: "requires_capture" as const,
+    };
+
+    return await submitForm(requestWithPayment);
+  };
+
+  return { pending, submitForm, submitFormWithPayment, payload, errorMsg };
 };

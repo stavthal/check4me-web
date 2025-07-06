@@ -49,9 +49,14 @@ const schema = z.object({
 
 const errors = reactive<Record<string, string>>({});
 
-const { pending, submitForm, errorMsg } = useSubmitClientRequest();
+const { pending, submitFormWithPayment, errorMsg } = useSubmitClientRequest();
 
 const { fetch, checkers } = useFetchCheckersByArea();
+
+// Payment modal state
+const showPaymentModal = ref(false);
+const isPaymentCompleted = ref(false);
+const completedPaymentIntentId = ref<string | null>(null);
 
 console.log(checkers.value);
 
@@ -82,9 +87,35 @@ const onSubmit = async () => {
   }
   // Clear errors if valid
   Object.keys(errors).forEach((key) => (errors[key] = ""));
-  await submitForm(formData);
+
+  // Show payment modal instead of directly submitting
+  showPaymentModal.value = true;
+};
+
+const onPaymentSuccess = async (paymentIntentId: string) => {
+  completedPaymentIntentId.value = paymentIntentId;
+  isPaymentCompleted.value = true;
+  showPaymentModal.value = false;
+
+  // Now submit the form with payment info
+  await submitFormWithPayment(formData, paymentIntentId);
 
   // Reset form data after submission
+  resetForm();
+
+  // Close the modal after submission
+  props.onClose(new MouseEvent("onClick"));
+  toast.add({
+    title: "Request submitted successfully with payment!",
+    color: "success",
+  });
+};
+
+const onPaymentClose = () => {
+  showPaymentModal.value = false;
+};
+
+const resetForm = () => {
   formData.title = "";
   formData.vehicleMake = "";
   formData.vehicleModel = "";
@@ -93,10 +124,10 @@ const onSubmit = async () => {
   formData.status = "PENDING";
   formData.listingLink = "";
   formData.areaId = "";
-
-  // Close the modal after submission
-  props.onClose(new MouseEvent("onClick"));
-  toast.add({ title: "Request submitted successfully!", color: "success" });
+  formData.checkerId = "";
+  formData.notes = "";
+  isPaymentCompleted.value = false;
+  completedPaymentIntentId.value = null;
 };
 </script>
 
@@ -226,4 +257,12 @@ const onSubmit = async () => {
       </UForm>
     </template>
   </UModal>
+
+  <!-- Payment Modal -->
+  <ClientRequestsPaymentModal
+    :is-open="showPaymentModal"
+    :on-close="onPaymentClose"
+    :on-payment-success="onPaymentSuccess"
+    :request-data="formData"
+  />
 </template>
