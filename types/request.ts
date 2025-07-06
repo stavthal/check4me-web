@@ -13,7 +13,7 @@ export type RequestRequest = {
 };
 
 export type RequestWithClient = {
-  id: number;
+  id: string;
   title: string;
   vehicle_make: string;
   vehicle_model: string;
@@ -25,6 +25,7 @@ export type RequestWithClient = {
   created_at: string;
   area_id: number;
   client_id: string;
+  checker_id?: string | null;
   client?: { full_name: string } | null;
   client_full_name?: string;
   checker_full_name?: string;

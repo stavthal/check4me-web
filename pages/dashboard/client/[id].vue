@@ -251,6 +251,22 @@ const onReviewSubmitted = () => {
           </p>
         </div>
       </div>
+
+      <!-- Chat Section -->
+      <div
+        v-if="request.checker_id && request.status !== 'PENDING'"
+        class="p-6 bg-white border border-gray-200 rounded-lg"
+      >
+        <h2 class="flex items-center mb-4 text-lg font-semibold text-gray-900">
+          <UIcon name="i-lucide-message-circle" class="w-5 h-5 mr-2" />
+          Συνομιλία με τον Ελεγκτή
+        </h2>
+        <RequestChat
+          :request-id="request.id"
+          current-user-type="client"
+          :current-user-id="user?.id || ''"
+        />
+      </div>
     </div>
 
     <AddReviewModal

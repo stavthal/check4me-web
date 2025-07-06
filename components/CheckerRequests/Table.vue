@@ -87,18 +87,18 @@ const columns = [
       row: { getValue: (key: string) => unknown; original: RequestWithClient };
     }) => {
       const status = row.getValue("status") as string;
-      if (status === "PENDING") {
-        return h(
-          "button",
-          {
-            class:
-              "u-btn u-btn-primary text-xs px-2 py-1 rounded bg-primary text-white hover:bg-primary-dark transition",
-            onClick: () => openDetailsModal(row.original),
-          },
-          "Προβολή Αιτήματος"
-        );
-      }
-      return null;
+      // if (status === "PENDING") {
+      return h(
+        "button",
+        {
+          class:
+            "u-btn u-btn-primary text-xs px-2 py-1 rounded bg-primary text-white hover:bg-primary-dark transition",
+          onClick: () => openDetailsModal(row.original),
+        },
+        "Προβολή Αιτήματος"
+      );
+      // }
+      // return null;
     },
   },
 ];
