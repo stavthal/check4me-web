@@ -52,7 +52,9 @@
           v-model="form.content"
           placeholder="Γράψτε το περιεχόμενό σας εδώ..."
         />
-        <p class="text-sm text-gray-600 mt-2">Χρησιμοποιήστε τη γραμμή εργαλείων για να μορφοποιήσετε το κείμενό σας</p>
+        <p class="text-sm text-gray-600 mt-2">
+          Χρησιμοποιήστε τη γραμμή εργαλείων για να μορφοποιήσετε το κείμενό σας
+        </p>
       </div>
 
       <!-- Preview Section - No longer needed with rich text editor -->

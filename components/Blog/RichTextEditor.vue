@@ -13,7 +13,7 @@
       >
         <Icon name="lucide:bold" />
       </UButton>
-      
+
       <UButton
         :class="{ 'bg-gray-200': editor?.isActive('italic') }"
         :disabled="!editor"
@@ -24,7 +24,7 @@
       >
         <Icon name="lucide:italic" />
       </UButton>
-      
+
       <UButton
         :class="{ 'bg-gray-200': editor?.isActive('underline') }"
         :disabled="!editor"
@@ -35,7 +35,7 @@
       >
         <Icon name="lucide:underline" />
       </UButton>
-      
+
       <UButton
         :class="{ 'bg-gray-200': editor?.isActive('strike') }"
         :disabled="!editor"
@@ -46,7 +46,7 @@
       >
         <Icon name="lucide:strikethrough" />
       </UButton>
-      
+
       <UButton
         :class="{ 'bg-gray-200': editor?.isActive('code') }"
         :disabled="!editor"
@@ -71,7 +71,7 @@
       >
         H1
       </UButton>
-      
+
       <UButton
         :class="{ 'bg-gray-200': editor?.isActive('heading', { level: 2 }) }"
         :disabled="!editor"
@@ -82,7 +82,7 @@
       >
         H2
       </UButton>
-      
+
       <UButton
         :class="{ 'bg-gray-200': editor?.isActive('heading', { level: 3 }) }"
         :disabled="!editor"
@@ -107,7 +107,7 @@
       >
         <Icon name="lucide:list" />
       </UButton>
-      
+
       <UButton
         :class="{ 'bg-gray-200': editor?.isActive('orderedList') }"
         :disabled="!editor"
@@ -156,7 +156,7 @@
       >
         <Icon name="lucide:align-left" />
       </UButton>
-      
+
       <UButton
         :class="{ 'bg-gray-200': editor?.isActive({ textAlign: 'center' }) }"
         :disabled="!editor"
@@ -167,7 +167,7 @@
       >
         <Icon name="lucide:align-center" />
       </UButton>
-      
+
       <UButton
         :class="{ 'bg-gray-200': editor?.isActive({ textAlign: 'right' }) }"
         :disabled="!editor"
@@ -191,7 +191,7 @@
       >
         <Icon name="lucide:undo" />
       </UButton>
-      
+
       <UButton
         :disabled="!editor || !editor.can().redo()"
         type="button"
@@ -205,8 +205,8 @@
 
     <!-- Editor Content -->
     <div class="min-h-[300px] p-4">
-      <EditorContent 
-        :editor="editor" 
+      <EditorContent
+        :editor="editor"
         class="prose prose-sm max-w-none focus:outline-none"
       />
     </div>
@@ -214,31 +214,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
-import Underline from '@tiptap/extension-underline'
-import TextAlign from '@tiptap/extension-text-align'
-import Link from '@tiptap/extension-link'
-import Image from '@tiptap/extension-image'
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { Editor, EditorContent } from "@tiptap/vue-3";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Link from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image";
 
 interface Props {
-  modelValue?: string
-  placeholder?: string
-  editable?: boolean
+  modelValue?: string;
+  placeholder?: string;
+  editable?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: '',
-  placeholder: 'Γράψτε το περιεχόμενό σας εδώ...',
-  editable: true
-})
+  modelValue: "",
+  placeholder: "Γράψτε το περιεχόμενό σας εδώ...",
+  editable: true,
+});
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string]
-}>()
+  "update:modelValue": [value: string];
+}>();
 
-const editor = ref<Editor>()
+const editor = ref<Editor>();
 
 onMounted(() => {
   editor.value = new Editor({
@@ -247,64 +247,75 @@ onMounted(() => {
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [1, 2, 3]
-        }
+          levels: [1, 2, 3],
+        },
       }),
       Underline,
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ["heading", "paragraph"],
       }),
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-blue-600 underline cursor-pointer',
+          class: "text-blue-600 underline cursor-pointer",
         },
       }),
       Image.configure({
         HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg',
+          class: "max-w-full h-auto rounded-lg",
         },
       }),
     ],
     editorProps: {
       attributes: {
-        class: 'prose prose-sm max-w-none focus:outline-none min-h-[250px]',
+        class: "prose prose-sm max-w-none focus:outline-none min-h-[250px]",
         placeholder: props.placeholder,
       },
     },
     onUpdate: ({ editor }) => {
-      emit('update:modelValue', editor.getHTML())
+      emit("update:modelValue", editor.getHTML());
     },
-  })
-})
+  });
+});
 
 onBeforeUnmount(() => {
-  editor.value?.destroy()
-})
+  editor.value?.destroy();
+});
 
 // Watch for external changes to modelValue
-watch(() => props.modelValue, (newValue) => {
-  if (editor.value && editor.value.getHTML() !== newValue) {
-    editor.value.commands.setContent(newValue, false)
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (editor.value && editor.value.getHTML() !== newValue) {
+      editor.value.commands.setContent(newValue, false);
+    }
   }
-})
+);
 
 // Watch for editable changes
-watch(() => props.editable, (newValue) => {
-  if (editor.value) {
-    editor.value.setEditable(newValue)
+watch(
+  () => props.editable,
+  (newValue) => {
+    if (editor.value) {
+      editor.value.setEditable(newValue);
+    }
   }
-})
+);
 
 const addLink = () => {
-  if (!editor.value) return
-  
-  const url = window.prompt('Εισάγετε URL:')
-  
+  if (!editor.value) return;
+
+  const url = window.prompt("Εισάγετε URL:");
+
   if (url) {
-    editor.value.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+    editor.value
+      .chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: url })
+      .run();
   }
-}
+};
 </script>
 
 <style>
@@ -316,31 +327,32 @@ const addLink = () => {
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #9CA3AF;
+  color: #9ca3af;
   pointer-events: none;
   height: 0;
 }
 
 .ProseMirror blockquote {
-  border-left: 4px solid #E5E7EB;
+  border-left: 4px solid #e5e7eb;
   margin: 1rem 0;
   padding-left: 1rem;
-  color: #6B7280;
+  color: #6b7280;
 }
 
 .ProseMirror code {
-  background-color: #F3F4F6;
+  background-color: #f3f4f6;
   border-radius: 0.25rem;
-  color: #DC2626;
+  color: #dc2626;
   font-size: 0.875em;
   padding: 0.125rem 0.25rem;
 }
 
 .ProseMirror pre {
-  background-color: #1F2937;
+  background-color: #1f2937;
   border-radius: 0.5rem;
-  color: #F9FAFB;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  color: #f9fafb;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+    "Liberation Mono", Menlo, monospace;
   padding: 1rem;
 }
 
@@ -351,11 +363,14 @@ const addLink = () => {
   padding: 0;
 }
 
-.ProseMirror ul, .ProseMirror ol {
+.ProseMirror ul,
+.ProseMirror ol {
   padding: 0 1rem;
 }
 
-.ProseMirror h1, .ProseMirror h2, .ProseMirror h3 {
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
   line-height: 1.2;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;

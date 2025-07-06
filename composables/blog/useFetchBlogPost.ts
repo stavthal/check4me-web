@@ -1,6 +1,9 @@
 import type { BlogPost } from "~/types/blog";
 
-export const useFetchBlogPost = async (slug: string, publishedOnly: boolean = true) => {
+export const useFetchBlogPost = async (
+  slug: string,
+  publishedOnly: boolean = true
+) => {
   const supabase = useSupabaseClient();
 
   let query = supabase
