@@ -5,9 +5,6 @@
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           Πώς λειτουργεί;
         </h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Απλά βήματα για έναν ολοκληρωμένο έλεγχο του οχήματός σου
-        </p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-16 mb-16">
@@ -43,6 +40,22 @@
               </div>
               <div>
                 <h4 class="text-lg font-semibold text-gray-900 mb-2">
+                  Ρύθμιση Πληρωμής
+                </h4>
+                <p class="text-gray-600">
+                  Προσθέτεις τα στοιχεία πληρωμής σου με ασφαλή τρόπο για την ολοκλήρωση της συναλλαγής
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div
+                class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg"
+              >
+                3
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">
                   Επιλογή Ελεγκτή
                 </h4>
                 <p class="text-gray-600">
@@ -55,7 +68,7 @@
               <div
                 class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg"
               >
-                3
+                4
               </div>
               <div>
                 <h4 class="text-lg font-semibold text-gray-900 mb-2">
@@ -120,6 +133,22 @@
               </div>
               <div>
                 <h4 class="text-lg font-semibold text-gray-900 mb-2">
+                  Ρύθμιση Πληρωμών
+                </h4>
+                <p class="text-gray-600">
+                  Προσθέτεις τα τραπεζικά σου στοιχεία για την παραλαβή των αμοιβών
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div
+                class="flex-shrink-0 w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg"
+              >
+                3
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">
                   Λήψη Αιτημάτων
                 </h4>
                 <p class="text-gray-600">
@@ -132,7 +161,7 @@
               <div
                 class="flex-shrink-0 w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg"
               >
-                3
+                4
               </div>
               <div>
                 <h4 class="text-lg font-semibold text-gray-900 mb-2">

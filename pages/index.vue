@@ -8,14 +8,12 @@
       <!-- Hero Section -->
       <LandingHero />
 
-      <!-- Features Section -->
-      <LandingFeatures />
+      <!-- About Section -->
+      <LandingAbout />
 
       <!-- How It Works Section -->
       <LandingHowItWorks />
 
-      <!-- Pricing Section -->
-      <LandingPricing />
 
       <!-- Stats Section -->
       <LandingStats />
