@@ -9,8 +9,9 @@
           <h1
             class="mb-6 text-4xl font-bold leading-tight text-gray-900 md:text-6xl"
           >
-            Αξιόπιστος <span class="text-primary">έλεγχος</span><br />
-            μεταχειρισμένων <span class="text-primary">οχημάτων</span>
+<!--            Αξιόπιστος <span class="text-primary">έλεγχος</span><br />-->
+<!--            μεταχειρισμένων <span class="text-primary">οχημάτων</span>-->
+            Βρήκες <span class="text-primary">μεταχειρισμένο</span> όχημα αλλά είναι σε <span class="text-primary">άλλη πόλη</span>;
           </h1>
           <p class="max-w-2xl mb-8 text-xl text-gray-600">
             Συνδέουμε αγοραστές με εξειδικευμένους ελεγκτές για την ασφαλή αγορά
@@ -102,4 +103,5 @@
   </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
