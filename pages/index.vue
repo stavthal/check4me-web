@@ -15,11 +15,6 @@
       <LandingHowItWorks />
 
 
-      <!-- Stats Section -->
-      <LandingStats />
-
-      <!-- Testimonials Section -->
-      <LandingTestimonials />
 
       <!-- Final CTA Section -->
       <LandingCTA />

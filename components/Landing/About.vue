@@ -3,133 +3,119 @@
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          Τι είναι το Check4Me;
+          Τι είναι το Check4Me
         </h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Η πρώτη ψηφιακή πλατφόρμα που συνδέει αγοραστές μεταχειρισμένων οχημάτων 
-          με πιστοποιημένους ελεγκτές σε όλη την Ελλάδα
-        </p>
       </div>
 
-      <!-- Main content grid -->
-      <div class="grid lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
-        <!-- Left side - Content -->
-        <div class="space-y-8">
-          <div class="flex items-start gap-4">
-            <div class="flex-shrink-0 w-12 h-12 bg-primary rounded-2xl flex items-center justify-center">
-              <Icon name="lucide:target" class="w-6 h-6 text-white" />
+      <!-- Main content -->
+      <div class="max-w-4xl mx-auto space-y-16">
+        <!-- What is Check4Me -->
+        <div class="bg-white rounded-3xl shadow-lg p-8 md:p-12">
+          <p class="text-lg text-gray-700 leading-relaxed mb-6">
+            Το Check4Me είναι η πλατφόρμα που σου δίνει την δυνατότητα να στείλεις έναν χρήστη της εφαρμογής να δεί από κοντά το όχημα που σε ενδιαφέρει.
+          </p>
+          <p class="text-lg text-gray-700 leading-relaxed">
+            Είτε πρόκειται για αυτοκίνητο είτε για μοτοσυκλέτα, αν δεν μπορείς να το επισκεφτείς εσύ ο ίδιος λόγω απόστασης ή χρόνου, το Check4Me σου προσφέρει μια έξυπνη και οικονομική λύση. Ο ελεγκτής πηγαίνει στη διεύθυνση του οχήματος, το βλέπει από κοντά και σου στέλνει φωτογραφίες, βίντεο και πληροφορίες, ώστε να έχεις μια πιο ξεκάθαρη εικόνα πριν πάρεις την απόφασή σου.
+          </p>
+        </div>
+
+        <!-- What Check4Me is NOT -->
+        <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl shadow-lg p-8 md:p-12 border-l-4 border-amber-400">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="flex-shrink-0 w-12 h-12 bg-amber-400 rounded-2xl flex items-center justify-center">
+              <Icon name="lucide:alert-triangle" class="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 class="text-xl font-semibold text-gray-900 mb-3">
-                Η Αποστολή μας
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                Τι δεν είναι το Check4Me
               </h3>
-              <p class="text-gray-600 leading-relaxed">
-                Να κάνουμε την αγορά μεταχειρισμένων οχημάτων ασφαλή, διαφανή και αξιόπιστη. 
-                Συνδέουμε ανθρώπους που αναζητούν το επόμενο όχημά τους με έμπειρους ελεγκτές 
-                που μπορούν να τους βοηθήσουν να πάρουν τη σωστή απόφαση.
-              </p>
             </div>
           </div>
+          <p class="text-lg text-gray-700 leading-relaxed">
+            Το Check4Me δεν υποκαθιστά τεχνικό έλεγχο σε συνεργείο ούτε παρέχει εγγυήσεις για την κατάσταση του οχήματος. Ο έλεγχος είναι οπτικός και πληροφοριακός, σαν να έστελνες έναν φίλο σου να το δει για σένα.
+          </p>
+        </div>
 
-          <div class="flex items-start gap-4">
+        <!-- What Check4Me offers -->
+        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl shadow-lg p-8 md:p-12">
+          <div class="flex items-start gap-4 mb-8">
             <div class="flex-shrink-0 w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center">
-              <Icon name="lucide:users" class="w-6 h-6 text-white" />
+              <Icon name="lucide:gift" class="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 class="text-xl font-semibold text-gray-900 mb-3">
-                Για ποιους είμαστε
+              <h3 class="text-2xl font-bold text-gray-900 mb-6">
+                Τι σου προσφέρει το Check4Me
               </h3>
-              <p class="text-gray-600 leading-relaxed">
-                Για κάθε αγοραστή που θέλει να αποφύγει κρυφά προβλήματα και για κάθε 
-                έμπειρο επαγγελματία που θέλει να μοιραστεί τις γνώσεις του και να 
-                βοηθήσει άλλους να κάνουν ασφαλείς αγορές.
-              </p>
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="flex items-start gap-3">
+              <Icon name="lucide:clock" class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <span class="text-gray-700">Εξοικονομεί χρόνο & έξοδα μετακίνησης</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <Icon name="lucide:eye" class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <span class="text-gray-700">Σου δίνει οπτική επαφή με το όχημα χωρίς να είσαι εκεί</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <Icon name="lucide:shield-check" class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <span class="text-gray-700">Σε βοηθά να αποφύγεις δυσάρεστες εκπλήξεις</span>
             </div>
           </div>
 
-          <div class="flex items-start gap-4">
-            <div class="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center">
-              <Icon name="lucide:shield-check" class="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 class="text-xl font-semibold text-gray-900 mb-3">
-                Γιατί να μας εμπιστευτείς
-              </h3>
-              <p class="text-gray-600 leading-relaxed">
-                Με αυστηρά κριτήρια επιλογής ελεγκτών, διαφανή διαδικασίες και 
-                αξιολογήσεις από πραγματικούς χρήστες, εξασφαλίζουμε την υψηλότερη 
-                ποιότητα υπηρεσιών.
-              </p>
-            </div>
+          <div class="bg-white rounded-2xl p-6 border-l-4 border-green-400">
+            <p class="text-lg text-gray-700 leading-relaxed font-medium">
+              Μέσα από το Check4Me, έχεις τη σιγουριά ότι θα πάρεις τις πληροφορίες που χρειάζεσαι για να αποφασίσεις πιο εύκολα αν αξίζει να κάνεις το επόμενο βήμα ή να συνεχίσεις την αναζήτησή σου.
+            </p>
           </div>
         </div>
 
-        <!-- Right side - Visual elements -->
-        <div class="relative">
-          <div class="bg-white rounded-3xl shadow-2xl p-8 transform rotate-2 hover:rotate-0 transition-transform duration-300">
-            <!-- Mock interface -->
-            <div class="space-y-6">
-              <div class="flex items-center gap-3 pb-4 border-b border-gray-100">
-                <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-                <div class="ml-auto text-sm text-gray-500 font-medium">Check4Me</div>
+        <!-- Visual representation -->
+        <div class="bg-white rounded-3xl shadow-lg p-8 md:p-12">
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-6">
+                Πώς λειτουργεί απλά
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-center gap-4">
+                  <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">1</div>
+                  <span class="text-gray-700">Βρίσκεις ενδιαφέρον όχημα</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">2</div>
+                  <span class="text-gray-700">Στέλνεις έναν "φίλο" από την πλατφόρμα</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">3</div>
+                  <span class="text-gray-700">Παραλαμβάνεις φωτογραφίες & πληροφορίες</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">✓</div>
+                  <span class="text-gray-700">Αποφασίζεις με σιγουριά</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="relative">
+              <div class="bg-gradient-to-br from-primary-100 to-blue-100 rounded-2xl p-6">
+                <div class="flex items-center justify-center aspect-square bg-white rounded-xl shadow-lg">
+                  <div class="text-center">
+                    <Icon name="lucide:users" class="w-16 h-16 text-primary mx-auto mb-4" />
+                    <div class="text-sm text-gray-600 font-medium">Χρήστες Check4Me</div>
+                  </div>
+                </div>
               </div>
               
-              <div class="space-y-4">
-                <div class="flex items-center gap-3">
-                  <Icon name="lucide:car" class="w-8 h-8 text-primary" />
-                  <div class="flex-1">
-                    <div class="h-3 bg-gray-200 rounded w-3/4"></div>
-                    <div class="h-2 bg-gray-100 rounded w-1/2 mt-2"></div>
-                  </div>
-                  <Icon name="lucide:check-circle" class="w-6 h-6 text-green-500" />
-                </div>
-                
-                <div class="flex items-center gap-3">
-                  <Icon name="lucide:camera" class="w-8 h-8 text-blue-500" />
-                  <div class="flex-1">
-                    <div class="h-3 bg-gray-200 rounded w-2/3"></div>
-                    <div class="h-2 bg-gray-100 rounded w-3/4 mt-2"></div>
-                  </div>
-                  <div class="text-sm text-gray-500">24 φωτογραφίες</div>
-                </div>
-                
-                <div class="flex items-center gap-3">
-                  <Icon name="lucide:file-text" class="w-8 h-8 text-purple-500" />
-                  <div class="flex-1">
-                    <div class="h-3 bg-gray-200 rounded w-5/6"></div>
-                    <div class="h-2 bg-gray-100 rounded w-2/3 mt-2"></div>
-                  </div>
-                  <div class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-                    Έτοιμη
-                  </div>
-                </div>
+              <!-- Floating icons -->
+              <div class="absolute -top-2 -right-2 w-12 h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+                <Icon name="lucide:camera" class="w-6 h-6 text-white" />
+              </div>
+              <div class="absolute -bottom-2 -left-2 w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                <Icon name="lucide:map-pin" class="w-6 h-6 text-white" />
               </div>
             </div>
-          </div>
-
-          <!-- Floating elements -->
-          <div class="absolute -top-4 -left-4 w-16 h-16 bg-primary opacity-20 rounded-full animate-pulse"></div>
-          <div class="absolute -bottom-6 -right-6 w-20 h-20 bg-blue-400 opacity-15 rounded-full animate-pulse" style="animation-delay: 1s"></div>
-          <div class="absolute top-1/2 -right-8 w-12 h-12 bg-green-400 opacity-10 rounded-full animate-pulse" style="animation-delay: 2s"></div>
-        </div>
-      </div>
-
-      <!-- Bottom stats section -->
-      <div class="mt-20 bg-white rounded-3xl shadow-lg p-8 max-w-4xl mx-auto">
-        <div class="grid md:grid-cols-3 gap-8 text-center">
-          <div>
-            <div class="text-3xl font-bold text-primary mb-2">1000+</div>
-            <div class="text-gray-600">Χαρούμενοι πελάτες</div>
-          </div>
-          <div>
-            <div class="text-3xl font-bold text-green-500 mb-2">50+</div>
-            <div class="text-gray-600">Πιστοποιημένοι ελεγκτές</div>
-          </div>
-          <div>
-            <div class="text-3xl font-bold text-blue-500 mb-2">98%</div>
-            <div class="text-gray-600">Ποσοστό ικανοποίησης</div>
           </div>
         </div>
       </div>

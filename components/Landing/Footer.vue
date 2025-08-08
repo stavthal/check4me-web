@@ -6,9 +6,7 @@
         <div class="lg:col-span-2">
           <h3 class="text-2xl font-bold text-primary mb-4">Check4Me</h3>
           <p class="text-gray-300 mb-6 max-w-md">
-            Η πιο αξιόπιστη πλατφόρμα για τον έλεγχο μεταχειρισμένων οχημάτων
-            στην Ελλάδα. Συνδέουμε αγοραστές με πιστοποιημένους ελεγκτές για
-            ασφαλείς συναλλαγές.
+            Με το Check4Me μπορείς να ζητήσεις από έναν χρήστη της πλατφόρμας να ελέγξει το όχημα που σε ενδιαφέρει, όπου κι αν βρίσκεται. Μέσα από φωτογραφίες, βίντεο και πληροφορίες, αποκτάς καθαρή εικόνα πριν το επόμενο βήμα, σαν να είχες έναν φίλο στην πόλη του οχήματος.
           </p>
           <div class="flex space-x-4">
             <UButton
@@ -23,7 +21,7 @@
               size="sm"
               class="text-gray-400 hover:text-white p-2"
             >
-              <Icon name="lucide:twitter" class="w-5 h-5" />
+              <Icon name="simple-icons:tiktok" class="w-5 h-5" />
             </UButton>
             <UButton
               variant="ghost"
@@ -31,13 +29,6 @@
               class="text-gray-400 hover:text-white p-2"
             >
               <Icon name="lucide:instagram" class="w-5 h-5" />
-            </UButton>
-            <UButton
-              variant="ghost"
-              size="sm"
-              class="text-gray-400 hover:text-white p-2"
-            >
-              <Icon name="lucide:linkedin" class="w-5 h-5" />
             </UButton>
           </div>
         </div>
@@ -68,14 +59,6 @@
                 class="text-gray-300 hover:text-white transition-colors"
               >
                 Blog
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink
-                to="#"
-                class="text-gray-300 hover:text-white transition-colors"
-              >
-                Συχνές Ερωτήσεις
               </NuxtLink>
             </li>
           </ul>
