@@ -15,7 +15,7 @@ const { loading, submitForm } = useLoginForm(toast);
     <div
       class="w-full max-w-sm p-6 rounded-lg shadow-md form-container bg-gray-50"
     >
-      <h1 class="mb-2 text-xl font-bold">Login</h1>
+      <h1 class="mb-2 text-xl font-bold">Σύνδεση</h1>
       <UForm
         :state="form"
         class="flex flex-col gap-4"
@@ -28,19 +28,19 @@ const { loading, submitForm } = useLoginForm(toast);
             id="email"
             v-model="form.email"
             type="email"
-            placeholder="Enter your email"
+            placeholder="Εισάγετε το email σας"
             class="w-full"
             trailing-icon="i-heroicons-envelope-solid"
             required
           />
         </UFormField>
-        <UFormField label="Password" for="password" class="w-full">
+        <UFormField label="Κωδικός" for="password" class="w-full">
           <UInput
             id="password"
             v-model="form.password"
             trailing-icon="i-heroicons-lock-closed-solid"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Εισάγετε τον κωδικό σας"
             class="w-full"
             required
           />
@@ -48,9 +48,9 @@ const { loading, submitForm } = useLoginForm(toast);
 
         <div class="flex flex-col gap-2 mt-4">
           <p class="mt-2 text-sm text-center text-gray-500">
-            Don't have an account?
+            Δεν έχετε λογαριασμό;
             <NuxtLink to="/register" class="font-extrabold text-primary"
-              >Register!</NuxtLink
+              >Εγγραφή!</NuxtLink
             >
           </p>
           <UButton
@@ -59,7 +59,7 @@ const { loading, submitForm } = useLoginForm(toast);
             class="items-center justify-center w-full"
             :loading="loading"
           >
-            Login
+            Σύνδεση
           </UButton>
         </div>
       </UForm>

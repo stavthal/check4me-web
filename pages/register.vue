@@ -10,12 +10,12 @@ const toast = useToast();
 
 const items = ref<TabsItem[]>([
   {
-    label: "Client",
+    label: "Πελάτης",
     icon: "i-lucide-user",
     slot: "client" as const,
   },
   {
-    label: "Checker",
+    label: "Ελεγκτής",
     icon: "simple-icons:lucide",
     slot: "checker" as const,
   },
@@ -86,7 +86,7 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
         <!-- Checker Form -->
         <template #checker="{ item }: { item: TabsItem }">
           <p class="my-2 italic text-gray-400">
-            Welcome, please fill in your details to register as a
+            Καλώς ήρθατε, παρακαλώ συμπληρώστε τα στοιχεία σας για εγγραφή ως
             {{ item?.label?.toLowerCase() }}.
           </p>
           <UForm
@@ -94,11 +94,11 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
             class="flex flex-col gap-4"
             @submit.prevent="submitForm(checkerForm)"
           >
-            <UFormField label="Full Name" type="text" name="fullName">
+            <UFormField label="Ονοματεπώνυμο" type="text" name="fullName">
               <UInput
                 v-model="checkerForm.fullName"
                 class="w-full"
-                placeholder="Enter your full name"
+                placeholder="Εισάγετε το ονοματεπώνυμό σας"
                 required
                 :disabled="loading"
               />
@@ -107,52 +107,52 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
               <UInput
                 v-model="checkerForm.email"
                 class="w-full"
-                placeholder="Enter your email"
+                placeholder="Εισάγετε το email σας"
                 required
                 :disabled="loading"
               />
             </UFormField>
-            <UFormField label="Password" type="password" name="password">
+            <UFormField label="Κωδικός" type="password" name="password">
               <UInput
                 v-model="checkerForm.password"
                 class="w-full"
-                placeholder="Enter your password"
+                placeholder="Εισάγετε τον κωδικό σας"
                 required
                 type="password"
                 :disabled="loading"
               />
             </UFormField>
             <UFormField
-              label="Confirm Password"
+              label="Επιβεβαίωση Κωδικού"
               name="confirmPassword"
               type="password"
             >
               <UInput
                 v-model="checkerForm.confirmPassword"
                 class="w-full"
-                placeholder="Confirm your password"
+                placeholder="Επιβεβαιώστε τον κωδικό σας"
                 required
                 type="password"
                 :disabled="loading"
               />
             </UFormField>
-            <UFormField label="Area" name="area">
+            <UFormField label="Περιοχή" name="area">
               <USelect
                 v-model="checkerForm.area_id"
                 class="w-full"
                 :items="
                   areas.map((area) => ({ value: area.id, label: area.name }))
                 "
-                placeholder="Select your area"
+                placeholder="Επιλέξτε την περιοχή σας"
                 required
                 :disabled="loading"
               />
             </UFormField>
-            <UFormField label="Location" name="location">
+            <UFormField label="Τοποθεσία" name="location">
               <UInput
                 v-model="checkerForm.location"
                 class="w-full"
-                placeholder="Enter your location"
+                placeholder="Εισάγετε την τοποθεσία σας"
                 required
                 :disabled="loading"
               />
@@ -163,14 +163,14 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
               class="items-center justify-center w-full"
               :loading="loading"
               :disabled="loading"
-              >Register as Checker</UButton
+              >Εγγραφή ως Ελεγκτής</UButton
             >
             <!-- Navigate to Login -->
             <div class="flex flex-col gap-2 mt-4">
               <p class="mt-2 text-sm text-center text-gray-500">
-                Already have an account?
+                Έχετε ήδη λογαριασμό;
                 <NuxtLink to="/login" class="font-extrabold text-primary"
-                  >Login!</NuxtLink
+                  >Σύνδεση!</NuxtLink
                 >
               </p>
             </div>
@@ -180,7 +180,7 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
         <!-- Client Form -->
         <template #client="{ item }: { item: TabsItem }">
           <p class="my-2 italic text-gray-400">
-            Welcome, please fill in your details to register as a
+            Καλώς ήρθατε, παρακαλώ συμπληρώστε τα στοιχεία σας για εγγραφή ως
             {{ item?.label?.toLowerCase() }}.
           </p>
           <UForm
@@ -188,11 +188,11 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
             class="flex flex-col gap-4"
             @submit.prevent="submitForm(clientForm)"
           >
-            <UFormField label="Full Name" type="text" name="fullName">
+            <UFormField label="Ονοματεπώνυμο" type="text" name="fullName">
               <UInput
                 v-model="clientForm.fullName"
                 class="w-full"
-                placeholder="Enter your full name"
+                placeholder="Εισάγετε το ονοματεπώνυμό σας"
                 required
                 :disabled="loading"
               />
@@ -201,48 +201,48 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
               <UInput
                 v-model="clientForm.email"
                 class="w-full"
-                placeholder="Enter your email"
+                placeholder="Εισάγετε το email σας"
                 required
                 :disabled="loading"
               />
             </UFormField>
-            <UFormField label="Password" type="password" name="password">
+            <UFormField label="Κωδικός" type="password" name="password">
               <UInput
                 v-model="clientForm.password"
                 class="w-full"
-                placeholder="Enter your password"
+                placeholder="Εισάγετε τον κωδικό σας"
                 required
                 type="password"
                 :disabled="loading"
               />
             </UFormField>
-            <UFormField label="Confirm Password" name="confirmPassword">
+            <UFormField label="Επιβεβαίωση Κωδικού" name="confirmPassword">
               <UInput
                 v-model="clientForm.confirmPassword"
                 class="w-full"
-                placeholder="Confirm your password"
+                placeholder="Επιβεβαιώστε τον κωδικό σας"
                 required
                 type="password"
                 :disabled="loading"
               />
             </UFormField>
-            <UFormField label="Area" name="area">
+            <UFormField label="Περιοχή" name="area">
               <USelect
                 v-model="clientForm.area_id"
                 class="w-full"
                 :items="
                   areas.map((area) => ({ value: area.id, label: area.name }))
                 "
-                placeholder="Select your area"
+                placeholder="Επιλέξτε την περιοχή σας"
                 required
                 :disabled="loading"
               />
             </UFormField>
-            <UFormField label="Location" name="location">
+            <UFormField label="Τοποθεσία" name="location">
               <UInput
                 v-model="clientForm.location"
                 class="w-full"
-                placeholder="Enter your location"
+                placeholder="Εισάγετε την τοποθεσία σας"
                 required
                 :disabled="loading"
               />
@@ -252,15 +252,15 @@ const submitForm = async (form: typeof checkerForm | typeof clientForm) => {
               class="items-center justify-center w-full"
               color="primary"
               :disabled="loading"
-              >Register as Client</UButton
+              >Εγγραφή ως Πελάτης</UButton
             >
 
             <!-- Navigate to Login -->
             <div class="flex flex-col gap-2 mt-4">
               <p class="mt-2 text-sm text-center text-gray-500">
-                Already have an account?
+                Έχετε ήδη λογαριασμό;
                 <NuxtLink to="/login" class="font-extrabold text-primary"
-                  >Login!</NuxtLink
+                  >Σύνδεση!</NuxtLink
                 >
               </p>
             </div>

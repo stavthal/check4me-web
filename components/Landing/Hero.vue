@@ -9,13 +9,10 @@
           <h1
             class="mb-6 text-4xl font-bold leading-tight text-gray-900 md:text-6xl"
           >
-<!--            Αξιόπιστος <span class="text-primary">έλεγχος</span><br />-->
-<!--            μεταχειρισμένων <span class="text-primary">οχημάτων</span>-->
             Βρήκες <span class="text-primary">μεταχειρισμένο</span> όχημα αλλά είναι σε <span class="text-primary">άλλη πόλη</span>;
           </h1>
           <p class="max-w-2xl mb-8 text-xl text-gray-600">
-            Συνδέουμε αγοραστές με εξειδικευμένους ελεγκτές για την ασφαλή αγορά
-            μεταχειρισμένων αυτοκινήτων και μοτοσικλετών σε όλη την Ελλάδα.
+            Ζήτησε από έναν φίλο να δει το όχημα από κοντά! Το Check4me συνδέει ανθρώπους με αγάπη και ενδιαφέρον για τα αυτοκίνητα και τις μοτοσικλέτες, με ανθρώπους σε αναζήτησή για το καινούργιο τους όχημα.
           </p>
 
           <div
@@ -42,21 +39,6 @@
             </UButton>
           </div>
 
-          <!-- Stats -->
-          <div class="grid max-w-md grid-cols-3 gap-8 mx-auto lg:mx-0">
-            <div class="text-center lg:text-left">
-              <div class="text-2xl font-bold text-primary">500+</div>
-              <div class="text-sm text-gray-600">Ολοκληρωμένοι Έλεγχοι</div>
-            </div>
-            <div class="text-center lg:text-left">
-              <div class="text-2xl font-bold text-primary">50+</div>
-              <div class="text-sm text-gray-600">Πιστοποιημένοι Ελεγκτές</div>
-            </div>
-            <div class="text-center lg:text-left">
-              <div class="text-2xl font-bold text-primary">98%</div>
-              <div class="text-sm text-gray-600">Ικανοποίηση Πελατών</div>
-            </div>
-          </div>
         </div>
 
         <!-- Image/Visual -->
