@@ -1,4 +1,9 @@
 export default defineNuxtRouteMiddleware(async (to) => {
+  // Skip auth middleware for .well-known paths (SSL certificate validation)
+  if (to.path.startsWith('/.well-known/')) {
+    return;
+  }
+
   const user = useSupabaseUser();
 
   // if we have a user, deny access to login and register pages
